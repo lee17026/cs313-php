@@ -1,0 +1,16 @@
+#div01 {
+  color: blue;
+  font-size: 3em;
+}
+
+#div02 {
+  font-style: italic;
+}
+
+#div03 {
+  background-color: lawngreen;
+}
+
+div:hover {
+  font-weight: bold;
+}

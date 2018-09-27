@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="week02.css">
+     <script src="week02.js"></script> 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <title>Week 02 Team Activity</title>
+  </head>
+  
+  <body>
+    <h1>Here's our header.</h1>
+    
+    <div id='div01'>
+      <p>This guy is in the first div.</p>
+    
+    </div>
+    
+    <div id='div02'>
+      <h2>It's an h2 in div2.</h2>
+    </div>
+    
+    <div id='div03'>
+      <p>Div3!</p>
+    </div>
+  
+    <button id='button01' onclick="buttonAlert()">Click me!</button>
+    
+    <form id="form01">
+      Color (example #ff0000): 
+      <input type="text" name='color' id='colorInput'><br>
+      <button type="button" onclick="changeDiv1()">Change the color!</button>
+      
+    </form>
+    <br><br>
+    <button id="jqbutton">Fade in and out!</button>
+    
+    <script>
+      $("#jqbutton").click(function(){
+        $("#div03").fadeToggle();
+      })
+    </script>
+  </body>
+</html>
