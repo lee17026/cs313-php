@@ -16,6 +16,15 @@
      <h1>Tim's CS 313 Home</h1>
     </div>
     <!-- Nav Bar -->
+    <nav class="navbar navbar-expand-sm bg-light justify-content-center">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="#">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Assignments</a>
+      </ul>
+    </nav>
     
       
   </body>
