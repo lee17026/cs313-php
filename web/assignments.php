@@ -24,6 +24,10 @@
           <a class="nav-link" href="#">Assignments</a>
       </ul>
     </nav>
+      
+      <div class="container">
+      Come back next week for more!
+      </div>
   </body>
   
 </html>
