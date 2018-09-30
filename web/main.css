@@ -9,3 +9,7 @@ p {
 p.end_note {
   color:  #C70039;
 }
+
+div#accordion {
+  text-align: center;
+}
