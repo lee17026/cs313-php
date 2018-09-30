@@ -4,7 +4,10 @@
   <head>
     <meta charset="utf-8">
     <title>Tim Lee's CS 313 Homepage</title>
-    <meta name="description" content="The main hub for CS 313 assignments.">
+    <meta name="description" content="The main hub for CS 313 assignments.">      
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
     <!-- Bootstrap CDN -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
     <link rel="stylesheet" href="main.css">
@@ -40,7 +43,7 @@
         Blue Lobsters
       </a>
     </div>
-    <div id="collapseOne" class="collapse show" data-parent="#accordion">
+    <div id="collapseOne" class="collapse" data-parent="#accordion">
       <div class="card-body">
         Lorem ipsum..
       </div>
