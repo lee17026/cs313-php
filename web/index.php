@@ -45,7 +45,7 @@
     </div>
     <div id="collapseOne" class="collapse" data-parent="#accordion">
       <div class="card-body">
-        Lorem ipsum..
+         <img src="blue.jpg" class="img-rounded" alt="Blue Lobster"> 
       </div>
     </div>
   </div>
@@ -58,7 +58,7 @@
     </div>
     <div id="collapseTwo" class="collapse" data-parent="#accordion">
       <div class="card-body">
-        Lorem ipsum..
+         <img src="magic.jpg" class="img-rounded" alt="Magic Lobster"> 
       </div>
     </div>
   </div>
@@ -71,7 +71,7 @@
     </div>
     <div id="collapseThree" class="collapse" data-parent="#accordion">
       <div class="card-body">
-        Lorem ipsum..
+         <img src="advanced.jpg" class="img-rounded" alt="Advanced Lobster"> 
       </div>
     </div>
   </div>
