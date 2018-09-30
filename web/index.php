@@ -81,6 +81,12 @@
     <p>
 <?php
 echo "Today is " . date("Y/m/d") . "<br>";
+
+// calculate days until lobster day
+$date = strtotime("June 15, 2019 2:00 PM");
+$remaining = $date - time();
+$days_remaining = floor($remaining / 86400);
+echo "There are $days_remaining days until Lobster Day on June 15.<br>";
 ?> 
     </p>
         
