@@ -77,7 +77,7 @@
   </div>
 
 </div> 
-
+<br>
     <p class="end_note">
 <?php
 echo "Today is " . date("Y/m/d") . "<br>";
