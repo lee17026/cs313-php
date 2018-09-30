@@ -1,3 +1,11 @@
 p {
   text-align: center;
 }
+
+.container {
+  text-align: center;
+}
+
+p.end_note {
+  color:  #C70039;
+}
