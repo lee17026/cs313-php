@@ -14,6 +14,7 @@
     <!-- -->
     <div class="jumbotron text-center">
      <h1>Tim's CS 313 Home</h1>
+    </div>
     <!-- Nav Bar -->
     <nav class="navbar navbar-expand-sm bg-light justify-content-center">
       <ul class="navbar-nav">
@@ -24,7 +25,6 @@
           <a class="nav-link" href="#">Assignments</a>
       </ul>
     </nav>
-    </div>
 
   </body>
 </html>
