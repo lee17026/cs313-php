@@ -31,9 +31,10 @@
         <a href="week01/hello.html">Week 01 Prove</a>
         <hr/>
         <h3>Week 02</h3>
-        <a href="week02/week02.html">Week 02 Prove</a>
+        <a href="week02/week02.html">Week 02 Team Activity</a>
         <hr/>
         <h3>Week 03</h3>
+        <a href="week03/team03.html">Week 03 Team Activity</a>
         <hr/>
         <h3>Week 04</h3>
         <hr/>
