@@ -26,7 +26,20 @@
     </nav>
       
       <div class="container">
-      Come back next week for more!
+        <hr/>
+        <h3>Week 01</h3>
+        <a href="week01/hello.html">Week 01 Prove</a>
+        <hr/>
+        <h3>Week 02</h3>
+        <a href="week02/week02.html">Week 02 Prove</a>
+        <hr/>
+        <h3>Week 03</h3>
+        <hr/>
+        <h3>Week 04</h3>
+        <hr/>
+        <h3>Week 05</h3>
+        <hr/>
+        <h3>Week 06</h3>
       </div>
   </body>
   
