@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <title>Wazzap</title>
+    <meta charset="UTF-8"/>
+  </head>
+  <body>
+    <form action="team03.php" method="POST">
+      Name:
+      <input type="text" name="name" value="Default Name"/>
+      <br/>
+      Email:
+      <input type="text" name="email" value="example@domain.com"/>
+      <br/>
+      
+	  Major 2: <br>
+	  <?php
+		$majors = array("Computer Science", "Web Design and Development", "Computer Information Technology", "Computer Engineering");
+		for ($x =0; $x < count($majors); $x++) {
+			//echo $majors[$x];
+			echo '<input type="radio" name="major" value="' . $majors[$x] . '">'. $majors[$x];
+			echo "<br>";
+		}
+	  ?>
+	  
+      Comments:<br>
+	  <textarea name="comments" rows="4" cols="60"></textarea>
+      <br/><br>
+	  Continents you have visited: <br>
+	  <input type="checkbox" name="continent[]" value="0">North America<br>
+	  <input type="checkbox" name="continent[]" value="1">South America<br>
+	  <input type="checkbox" name="continent[]" value="2">Europe<br>
+	  <input type="checkbox" name="continent[]" value="3">Asia<br>
+	  <input type="checkbox" name="continent[]" value="4">Australia<br>
+	  <input type="checkbox" name="continent[]" value="5">Africa<br>
+	  <input type="checkbox" name="continent[]" value="6">Antartica<br>
+	  
+      <input type="submit">
+	  
+    </form>
+  </body>
+</html>

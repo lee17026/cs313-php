@@ -34,7 +34,7 @@
         <a href="week02/week02.html">Week 02 Team Activity</a>
         <hr/>
         <h3>Week 03</h3>
-        <a href="week03/team03.html">Week 03 Team Activity</a>
+        <a href="week03/team03first.php">Week 03 Team Activity</a>
         <hr/>
         <h3>Week 04</h3>
         <hr/>
