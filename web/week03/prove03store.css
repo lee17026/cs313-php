@@ -1,0 +1,46 @@
+.bottom-left {
+  position: absolute;
+  bottom: 0.5em;
+  left: 1em;
+  color: beige;
+  text-shadow: 2px 2px #000000;
+}
+
+.col-sm-6 {
+  margin-bottom: 5em;
+}
+
+.mainStore {
+  margin: 5em;
+}
+
+img.img-rounded:hover {
+  transition: transform .5s;
+  transform: scale(1.1);
+}
+
+div.note {
+  text-align: center;
+  font-size: 0.8em;
+}
+
+.item {
+  margin: 6em;
+}
+
+span.price {
+  font-weight: bold;
+}
+
+div.cart {
+  margin: 5em;
+  border: 3em;
+}
+
+div.controls {
+  margin: 7em;
+}
+
+div.checkout {
+  margin: 6em;
+}
