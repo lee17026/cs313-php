@@ -35,6 +35,8 @@
         <hr/>
         <h3>Week 03</h3>
         <a href="week03/team03first.php">Week 03 Team Activity</a>
+          <br />
+          <a href="week03/prove03store.php">Week 03 Prove</a>
         <hr/>
         <h3>Week 04</h3>
         <hr/>
