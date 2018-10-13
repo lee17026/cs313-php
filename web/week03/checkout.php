@@ -54,9 +54,11 @@ if(isset($_POST['checkout'])){
         State:
         <input type="text" name="state">
         <br/>
-        <input type="submit" name="checkout" value="Checkout">
+        <input type="submit" name="checkout" value="Complete Purchase" class="btn btn-primary">
       </form>
       ';
+        echo '<br/><br/> <a class="btn btn-primary" href="prove03store.php" role="button">Continue Browsing Store</a>';
+        echo '<br/><br/> <a class="btn btn-primary" href="cart.php" role="button">Return to Cart</a>';
       } else {
         echo '<h3>Final Order Confirmation</h3>';
         $total = 0;

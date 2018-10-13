@@ -48,21 +48,28 @@ foreach ($minerals as $value) {
     <div class="cart">
       <h2>Items in Cart</h2>
       <?php
-      foreach ($_SESSION as $key => $value) {
-        echo $key;
-        echo "<form action='cart.php' method='post'><input type='submit' value='Remove $key from Cart' name='$key'></form>";
-        echo "<br />";
+      if (!empty($_SESSION)) {
+        foreach ($_SESSION as $key => $value) {
+          echo $key;
+          echo "<form action='cart.php' method='post'><input type='submit' value='Remove $key from Cart' name='$key' class='btn btn-warning'></form>";
+          echo "<br />";
+        }
+      } else { // there is nothing in the cart
+        echo "The cart is currently empty. Please fill it with rocks!";
       }
       ?>
     </div>
     
     <div class="controls">
+      <a class="btn btn-primary" href="prove03store.php" role="button">Continue Browsing Store</a> 
+      <br />
+      <br />
       <form action="cart.php" method="post">
-        <input type="submit" value="Clear Cart" name="reset">
+        <input type="submit" value="Clear Cart" name="reset" class="btn btn-primary">
       </form>
       <br />
       <form action="checkout.php" method="post">
-        <input type="submit" value="Checkout">
+        <input type="submit" value="Checkout" class="btn btn-primary">
       </form>
     </div>
     
