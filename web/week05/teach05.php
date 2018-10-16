@@ -43,6 +43,14 @@ catch (PDOException $ex)
 	  echo '<br/>';
 	}
 	?>
+	<br /><br /><br />
+	<h1>PDO example</h1>
+	<?php
+	$stmt = $db->prepare('SELECT * FROM public.scriptures WHERE id=:id AND book=:book AND chapter=:chapter AND verse=:verse');
+	$stmt->execute(array(':id' => $id, ':book' => $book, ':chapter' => $chapter, ':verse' => $verse));
+	$rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+	var_dump($rows);
+	?>
   </body>
   
  </html>
