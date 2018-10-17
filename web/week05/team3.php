@@ -30,14 +30,15 @@
         
         <?php
             $id = htmlspecialchars($_POST["id"]);
-			echo "$id";
-            $row = $db->query("SELECT * FROM public.scriptures WHERE id='$id'");
-            $book = $row["book"];
-			echo "$book";
-            $chapter = $row["chapter"];
-            $verse = $row["verse"];
-            $content = $row["content"];
-            echo("$book $chapter:$verse &ldquo;$content&rdquo;");
+			foreach ($db->query("SELECT book, chapter, verse, content FROM public.scriptures WHERE id = '$id'") as $row)
+			{
+				<strong>
+                    <?php echo($row["book"]); ?>
+                    <?php echo($row["chapter"]); ?>:<?php echo($row["verse"]); ?>
+                </strong>
+                &ndash;
+                &ldquo;<?php echo($row["content"]); ?>&rdquo;
+			}
         ?>
     </body>
 </html>
