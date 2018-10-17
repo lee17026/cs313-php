@@ -30,8 +30,10 @@
         
         <?php
             $id = htmlspecialchars($_POST["id"]);
+			echo "$id";
             $row = $db->query("SELECT * FROM public.scriptures WHERE id='$id'");
             $book = $row["book"];
+			echo "$book";
             $chapter = $row["chapter"];
             $verse = $row["verse"];
             $content = $row["content"];
