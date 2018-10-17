@@ -32,12 +32,10 @@
             $id = htmlspecialchars($_POST["id"]);
 			foreach ($db->query("SELECT book, chapter, verse, content FROM public.scriptures WHERE id = '$id'") as $row)
 			{
-				<strong>
-                    <?php echo($row["book"]); ?>
-                    <?php echo($row["chapter"]); ?>:<?php echo($row["verse"]); ?>
-                </strong>
-                &ndash;
-                &ldquo;<?php echo($row["content"]); ?>&rdquo;
+				echo($row["book"]);
+                echo($row["chapter"]);
+				echo($row["verse"]);
+                echo($row["content"]);
 			}
         ?>
     </body>
