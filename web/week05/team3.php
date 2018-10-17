@@ -33,8 +33,11 @@
 			foreach ($db->query("SELECT book, chapter, verse, content FROM public.scriptures WHERE id = '$id'") as $row)
 			{
 				echo($row["book"]);
+				echo(" ");
                 echo($row["chapter"]);
+				echo(":");
 				echo($row["verse"]);
+				echo(" - ");
                 echo($row["content"]);
 			}
         ?>
