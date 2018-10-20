@@ -99,7 +99,7 @@ $filename=$_SERVER["PHP_SELF"];
         <tr>
           <td><?=$sum?></td>
           <td><?=$row['sugar_amount']?></td>
-          <td><?=(int)($sum / $row[0]["sugar_amount"])?></td>
+          <td><?=(int)($sum / $row[0]['sugar_amount'])?></td>
         </tr>
         <?php endforeach; ?>
         <tr>
