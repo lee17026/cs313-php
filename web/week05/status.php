@@ -6,7 +6,6 @@ $query = array
   array("silo_number" => "12", "amount" => 13679)
   );
   */
-<?php
 try {
 	$dbUrl = getenv('DATABASE_URL');
 	
@@ -26,7 +25,6 @@ try {
 	echo "Error!: $msg";
 	die();
 }
-?>
 ?>
 <!DOCTYPE html>
 <html lang="en-US">

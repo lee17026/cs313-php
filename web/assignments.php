@@ -34,13 +34,14 @@
         <hr/>
         <h3>Week 03</h3>
         <a href="week03/team03first.php">Week 03 Team Activity</a>
-          <br />
-          <a href="week03/prove03store.php">Week 03 Prove</a>
+        <br />
+        <a href="week03/prove03store.php">Week 03 Prove</a>
         <hr/>
         <h3>Week 04</h3>
         <hr/>
         <h3>Week 05</h3>
 		<a href="week05/teach05.php">Week 05 Team Activity</a>
+		<br />
 		<a href="week05/plantbcontrolroom.php">Week 05 Prove</a>
         <hr/>
         <h3>Week 06</h3>
