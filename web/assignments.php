@@ -41,6 +41,7 @@
         <hr/>
         <h3>Week 05</h3>
 		<a href="week05/teach05.php">Week 05 Team Activity</a>
+		<a href="week05/plantbcontrolroom.php">Week 05 Prove</a>
         <hr/>
         <h3>Week 06</h3>
         <hr/>
