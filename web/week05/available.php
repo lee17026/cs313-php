@@ -1,9 +1,30 @@
 <?php
+/* dummy data for testing
 $query = array
   (
   array("batch_code" => "824123", "amount" => 25000, "location" => 1),
   array("batch_code" => "824124", "amount" => 48000, "location" => 2)
   );
+*/
+try {
+	$dbUrl = getenv('DATABASE_URL');
+	
+	$dbOpts = parse_url($dbUrl);
+	
+	$dbHost = $dbOpts["host"];
+	$dbPort = $dbOpts["port"];
+	$dbUser = $dbOpts["user"];
+	$dbPassword = $dbOpts["pass"];
+	$dbName = ltrim($dbOpts["path"],'/');
+	
+	$db = new PDO("pgsql:host=$dbHost;port=$dbPort;dbname=$dbName", $dbUser, $dbPassword);
+	
+	$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $ex) {
+	$msg = $ex->getMessage();
+	echo "Error!: $msg";
+	die();
+}
 ?>
 <!DOCTYPE html>
 <html lang="en-US">
@@ -49,7 +70,7 @@ $query = array
         </tr>
       </thead>
       <tbody>
-        <?php foreach ($query as $row): ?>
+        <?php foreach ($db->query("SELECT batch_code, amount, location FROM public.sugar_shipment") as $row): ?>
         <tr>
           <td><?=$row['batch_code']?></td>
           <td><?=$row['amount']?></td>
