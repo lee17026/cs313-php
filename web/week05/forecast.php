@@ -52,14 +52,38 @@ $filename=$_SERVER["PHP_SELF"];
     
     <!-- Table -->
     <?php if ($_SERVER['REQUEST_METHOD'] == 'POST'): ?>
-    <?php   
+    <?php
+	$recipe_code = htmlspecialchars($_POST['code']);
+	
+	try {
+	$dbUrl = getenv('DATABASE_URL');
+	
+	$dbOpts = parse_url($dbUrl);
+	
+	$dbHost = $dbOpts["host"];
+	$dbPort = $dbOpts["port"];
+	$dbUser = $dbOpts["user"];
+	$dbPassword = $dbOpts["pass"];
+	$dbName = ltrim($dbOpts["path"],'/');
+	
+	$db = new PDO("pgsql:host=$dbHost;port=$dbPort;dbname=$dbName", $dbUser, $dbPassword);
+	
+	$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+	} catch (PDOException $ex) {
+	$msg = $ex->getMessage();
+	echo "Error!: $msg";
+	die();
+	}
+	// get the sum
+	$sum = $db->query("SELECT SUM (amount) FROM public.sugar_silo")[0]["sum"];
+	/* dummy data for testing
     $sum = 123456;
-    $recipe_code = $_POST['code'];
     $query = array
       (
       array("sugar_amount" => 5550)
       );
     $numMixable = (int)($sum / $query[0]["sugar_amount"]);
+	*/
     ?>
     <div class="container">
       <table class="table table-hover">
@@ -71,11 +95,11 @@ $filename=$_SERVER["PHP_SELF"];
         </tr>
       </thead>
       <tbody>
-        <?php foreach ($query as $row): ?>
+        <?php foreach ($db->query("SELECT sugar_amount FROM public.recipe WHERE recipe_code = '$recipe_code'") as $row): ?>
         <tr>
           <td><?=$sum?></td>
           <td><?=$row['sugar_amount']?></td>
-          <td><?=$numMixable?></td>
+          <td><?=(int)($sum / $row[0]["sugar_amount"])?></td>
         </tr>
         <?php endforeach; ?>
         <tr>

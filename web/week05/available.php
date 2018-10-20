@@ -77,16 +77,6 @@ try {
           <td>1<?=$row['location']?></td>
         </tr>
         <?php endforeach; ?>
-        <tr>
-          <td>John</td>
-          <td>Doe</td>
-          <td>Doe</td>
-        </tr>
-        <tr>
-          <td>Mary</td>
-          <td>Moe</td>
-          <td>Doe</td>
-        </tr>
       </tbody>
       </table>
     </div>
