@@ -79,7 +79,7 @@ $filename=$_SERVER["PHP_SELF"];
 	$sum = 0;
 	foreach ($db->query("SELECT amount FROM public.sugar_silo") as $row)
 	{
-		sum += $row['amount'];
+		$sum += $row['amount'];
 	}
 	/* dummy data for testing
     $sum = 123456;
