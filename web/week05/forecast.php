@@ -74,8 +74,9 @@ $filename=$_SERVER["PHP_SELF"];
 	echo "Error!: $msg";
 	die();
 	}
+	
 	// get the sum
-	$sum = $db->query("SELECT SUM (amount) FROM public.sugar_silo")[0]["sum"];
+	$sum = $db->query("SELECT SUM (amount) FROM public.sugar_silo")[0]['sum'];
 	/* dummy data for testing
     $sum = 123456;
     $query = array
@@ -99,14 +100,9 @@ $filename=$_SERVER["PHP_SELF"];
         <tr>
           <td><?=$sum?></td>
           <td><?=$row['sugar_amount']?></td>
-          <td><?=(int)($sum / $row[0]['sugar_amount'])?></td>
+          <td><?=(int)($sum / $row['sugar_amount'])?></td>
         </tr>
         <?php endforeach; ?>
-        <tr>
-          <td>John</td>
-          <td>Doe</td>
-          <td>Doe</td>
-        </tr>
       </tbody>
       </table>
     </div>
