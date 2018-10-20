@@ -89,7 +89,6 @@ $filename=$_SERVER["PHP_SELF"];
       );
     $numMixable = (int)($sum / $query[0]["sugar_amount"]);
 	*/
-	echo "$sum sum and $recipe_code recipe_code";
     ?>
     <div class="container">
       <table class="table table-hover">
@@ -101,7 +100,6 @@ $filename=$_SERVER["PHP_SELF"];
         </tr>
       </thead>
       <tbody>
-	  <!--
         <?php foreach ($db->query("SELECT sugar_amount FROM public.recipe WHERE recipe_code = '$recipe_code'") as $row): ?>
         <tr>
           <td><?=$sum?></td>
@@ -109,7 +107,6 @@ $filename=$_SERVER["PHP_SELF"];
           <td><?=(int)($sum / $row['sugar_amount'])?></td>
         </tr>
         <?php endforeach; ?>
-		-->
       </tbody>
       </table>
     </div>
