@@ -78,7 +78,7 @@ $filename=$_SERVER["PHP_SELF"];
       <tbody>
         <?php foreach ($db->query("SELECT b.id, r.recipe_name, r.recipe_code, b.creation_date
 		FROM batch b JOIN recipe r ON (b.recipe = r.id) JOIN sugar_shipment s ON (b.sugar_batch = s.id)
-		WHERE s.batch_code = '$sugar_batch';") as $row): ?>
+		WHERE s.batch_code = '$sugar_batch'") as $row): ?>
         <tr>
           <td><?=$row['id']?></td>
           <td><?=$row['recipe_name']?></td>
