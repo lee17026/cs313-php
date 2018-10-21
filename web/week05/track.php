@@ -54,6 +54,7 @@ $filename=$_SERVER["PHP_SELF"];
     <?php if ($_SERVER['REQUEST_METHOD'] == 'POST'): ?>
     <?php
     $sugar_batch = htmlspecialchars($_POST['code']);
+	/* dummy data for testing
     $query = array
       (
       array("id" => 2, "recipe_name" => "Hoisin", "recipe_code" => "720001", "creation_date" => "2018-10-19"),
@@ -61,9 +62,10 @@ $filename=$_SERVER["PHP_SELF"];
       array("id" => 4, "recipe_name" => "Panda OS", "recipe_code" => "660002", "creation_date" => "2018-10-19"),
       array("id" => 5, "recipe_name" => "Hoisin", "recipe_code" => "720001", "creation_date" => "2018-10-19"),
       );
+	  */
     ?>
     <div class="container">
-      <h1>All Batches Mixed with Batch Code 821123</h1>
+      <h1>All Batches Mixed with Batch Code <?=$sugar_batch?></h1>
       <table class="table table-hover">
       <thead>
         <tr>
@@ -74,7 +76,9 @@ $filename=$_SERVER["PHP_SELF"];
         </tr>
       </thead>
       <tbody>
-        <?php foreach ($query as $row): ?>
+        <?php foreach ($db->query("SELECT b.id, r.recipe_name, r.recipe_code, b.creation_date
+		FROM batch b JOIN recipe r ON (b.recipe = r.id) JOIN sugar_shipment s ON (b.sugar_batch = s.id)
+		WHERE s.batch_code = '$sugar_batch';") as $row): ?>
         <tr>
           <td><?=$row['id']?></td>
           <td><?=$row['recipe_name']?></td>
@@ -82,12 +86,6 @@ $filename=$_SERVER["PHP_SELF"];
           <td><?=$row['creation_date']?></td>
         </tr>
         <?php endforeach; ?>
-        <tr>
-          <td>89</td>
-          <td>John</td>
-          <td>Doe</td>
-          <td>Doe</td>
-        </tr>
       </tbody>
       </table>
     </div>
