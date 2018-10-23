@@ -45,6 +45,8 @@
 		<a href="week05/plantbcontrolroom.php">Week 05 Prove</a>
         <hr/>
         <h3>Week 06</h3>
+		<a href="week06/teach06.php">Week 06 Team Activity</a>
+		<br />
         <hr/>
         <h3>Week 07</h3>
         <hr/>
