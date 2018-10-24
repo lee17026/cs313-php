@@ -20,8 +20,6 @@ catch (PDOException $ex)
   echo 'Error!: ' . $ex->getMessage();
   die();
 }
-
-
 ?>
 
 <!DOCTYPE html>
@@ -29,12 +27,27 @@ catch (PDOException $ex)
     
   <head>
     <meta charset="utf-8">
-    <title>Week 06 Team Activity</title>   
+    <title>Week 06 Team Activity</title> 
+<script type="application/javascript">
+function sendScriptures() {
+	let xhr = new XMLHttpRequest();
+	xhr.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+			var list1 = document.getElementById("list1");
+			list1.innerHTML = this.responseXML;
+		}
+	};
+	
+	// change the HTTP method and filename as needed
+	xhr.open("POST", "teach06p3.php", true);
+	xhr.send();
+}
+</script>	
   </head>
   
   <body>
 	<h1>Scripture Resources</h1>
-        <ul>
+        <ul id="list1">
         <?php foreach ($db->query("SELECT s.book, s.chapter, s.verse, s.content, string_agg(t.name, ', ') FROM scriptures s JOIN scripture_topic st ON s.id = st.scripture_id JOIN topic t ON st.topic_id = t.id GROUP BY s.id") as $row): ?>
             <li>
                 <strong>
@@ -63,7 +76,8 @@ catch (PDOException $ex)
 			<br />
 			<input type="checkbox" name="newTopicCheck" value="isNewTopicCheck" />
 			New Topic: <input type="text" name="newTopicText" />
-            <input type="submit" value="Submit" formaction="teach06p2.php" />
+			<input type="button" value="Submit" onclick="sendScriptures();" />
+            <!-- <input type="submit" value="Submit" formaction="teach06p2.php" /> Stretch 1 and 2 -->
         </form>
   </body>
   
