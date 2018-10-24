@@ -30,6 +30,38 @@ catch (PDOException $ex)
     <title>Week 06 Team Activity</title> 
 <script type="application/javascript">
 function sendScriptures() {
+	// get the DOM form elements
+	let txtBook = document.getElementsByName('book')[0];
+	let txtChapter = document.getElementsByName('chapter')[0];
+	let txtVerse = document.getElementsByName('verse')[0];
+	let txtContent = document.getElementsByName('content')[0];
+	let chkTopics = document.getElementsByName('topics[]');
+	let chkNewTopicCheck = document.getElementsByName('newTopicCheck')[0];
+	let txtNewTopicText = document.getElementsByName('newTopicText')[0];
+
+	// get the values in the elements
+	let book = txtBook.value;
+	let chapter = txtChapter.value;
+	let verse = txtVerse.value;
+	let content = txtContent.value;
+	let newTopicCheck = chkNewTopicCheck.value;
+	let newTopicText = txtNewTopicText.value;
+
+	// get the topics checkboxes' values
+	let topics = '';
+	for (let checkbox of chkTopics) {
+		topics += `${checkbox.value},`;
+	}
+
+	var formData = new FormData();
+	formData.append("book", book);
+	formData.append("chapter", chapter);
+	formData.append("verse", verse);
+	formData.append("content", content);
+	formData.append("newTopicCheck", newTopicCheck);
+	formData.append("newTopicText", newTopicText);
+	formData.append("topics", topics);
+	
 	let xhr = new XMLHttpRequest();
 	xhr.onreadystatechange = function() {
 		if (this.readyState == 4 && this.status == 200) {
@@ -40,7 +72,7 @@ function sendScriptures() {
 	
 	// change the HTTP method and filename as needed
 	xhr.open("POST", "teach06p3.php", true);
-	xhr.send();
+	xhr.send(formData);
 }
 </script>	
   </head>

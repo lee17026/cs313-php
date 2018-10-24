@@ -52,11 +52,7 @@ foreach ($topics as $row) {
 if (isset($_POST['newTopicCheck'])) {
 	$db->query("INSERT INTO scripture_topic (scripture_id, topic_id) VALUES ($newId, $newTopicID)");
 }
-
-
-
 ?>
-<ul>
 <?php foreach ($db->query("SELECT s.book, s.chapter, s.verse, s.content, string_agg(t.name, ', ') FROM scriptures s JOIN scripture_topic st ON s.id = st.scripture_id JOIN topic t ON st.topic_id = t.id GROUP BY s.id") as $row): ?>
 	<li>
 		<strong>
@@ -68,4 +64,3 @@ if (isset($_POST['newTopicCheck'])) {
 		 Topics: <?=$row["string_agg"]?>
 	</li>
 <?php endforeach; ?>
-</ul>
