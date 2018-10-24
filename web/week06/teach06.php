@@ -20,6 +20,8 @@ catch (PDOException $ex)
   echo 'Error!: ' . $ex->getMessage();
   die();
 }
+
+
 ?>
 
 <!DOCTYPE html>
@@ -27,7 +29,7 @@ catch (PDOException $ex)
     
   <head>
     <meta charset="utf-8">
-    <title>Week 05 Team Activity</title>   
+    <title>Week 06 Team Activity</title>   
   </head>
   
   <body>
@@ -45,11 +47,6 @@ catch (PDOException $ex)
         <?php endforeach; ?>
         </ul>
         <hr />
-        <!--
-            ################################################################################################################
-            # LOOK AT THIS
-            ################################################################################################################
-        --> 
         <form method="POST">
             Book: <input type="text" name="book" />
             <br />
@@ -59,6 +56,9 @@ catch (PDOException $ex)
             <br />
 			Content: <textarea name="content" rows="10" cols="20"></textarea>
 			<br />
+			<?php foreach ($db->query("SELECT name FROM public.topic") as $row): ?>
+				<input type="checkbox" name="testname" value="<?=$row['name']?>"> <?=$row['name']?><br>
+			<?php endforeach; ?>
             <input type="submit" value="Submit" formaction="teach06p2.php" />
         </form>
   </body>
