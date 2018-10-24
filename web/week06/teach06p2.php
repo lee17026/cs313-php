@@ -20,6 +20,13 @@ catch (PDOException $ex)
   echo 'Error!: ' . $ex->getMessage();
   die();
 }
+
+$book = htmlspecialchars($_POST['book']);
+$chapter = htmlspecialchars($_POST['chapter']);
+$verse = htmlspecialchars($_POST['verse']);
+$content = htmlspecialchars($_POST['content']);
+
+$db->query("INSERT INTO scriptures (book, chapter, verse, content) VALUES ('$book', $chapter, $verse, '$content')");
 ?>
 
 <!DOCTYPE html>
@@ -27,7 +34,7 @@ catch (PDOException $ex)
     
   <head>
     <meta charset="utf-8">
-    <title>Week 05 Team Activity</title>   
+    <title>Week 06 Team Activity</title>   
   </head>
   
   <body>
@@ -44,23 +51,7 @@ catch (PDOException $ex)
             </li>
         <?php endforeach; ?>
         </ul>
-        <hr />
-        <!--
-            ################################################################################################################
-            # LOOK AT THIS
-            ################################################################################################################
-        --> 
-        <form method="POST">
-            Book: <input type="text" name="book" />
-            <br />
-			Chapter: <input type="number" name="chapter" min="1" step="1" />
-            <br />
-			Verse: <input type="number" name="verse" min="1" step="1" />
-            <br />
-			Content: <textarea name="content" rows="10" cols="20"></textarea>
-			<br />
-            <input type="submit" value="Submit" formaction="teach06p2.php" />
-        </form>
+        
   </body>
   
  </html>
