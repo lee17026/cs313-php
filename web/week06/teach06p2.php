@@ -27,10 +27,12 @@ $chapter = htmlspecialchars($_POST['chapter']);
 $verse = htmlspecialchars($_POST['verse']);
 $content = htmlspecialchars($_POST['content']);
 
-// prepare insert statement
-$stmt = db->prepare('INSERT INTO scriptures (book, chapter, verse, content) VALUES (:book, :chapter, :verse, :content)');
+db->query("INSERT INTO scriptures (book, chapter, verse, content) VALUES ('$book', $chapter, $verse, '$content')");
 
-$stmt->execute(array(':book' => $book, ':chapter' => $chapter, ':verse' => $verse, ':content' => $content));
+// prepare insert statement
+//$stmt = db->prepare('INSERT INTO scriptures (book, chapter, verse, content) VALUES (:book, :chapter, :verse, :content)');
+
+//$stmt->execute(array(':book' => $book, ':chapter' => $chapter, ':verse' => $verse, ':content' => $content));
 ?>
 
 <!DOCTYPE html>
