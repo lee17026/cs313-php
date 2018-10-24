@@ -51,9 +51,15 @@ catch (PDOException $ex)
             ################################################################################################################
         --> 
         <form method="POST">
-            Book name: <input type="text" name="book" />
+            Book: <input type="text" name="book" />
             <br />
-            <input type="submit" value="Query" formaction="team2.php" />
+			Chapter: <input type="number" name="chapter" min="1" step="1" />
+            <br />
+			Verse: <input type="number" name="verse" min="1" step="1" />
+            <br />
+			Content: <textarea name="content" rows="10" cols="20"></textarea>
+			<br />
+            <input type="submit" value="Submit" formaction="#" />
         </form>
   </body>
   
