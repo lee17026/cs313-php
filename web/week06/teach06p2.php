@@ -31,7 +31,7 @@ $topics = $_POST['topics'];
 $db->query("INSERT INTO scriptures (book, chapter, verse, content) VALUES ('$book', $chapter, $verse, '$content')");
 $newId = $db->lastInsertId('scriptures_id_seq');
 foreach ($topics as $row) {
-	$db->query("INESRT INTO scripture_topic (scripture_id, topic_id) VALUES ($newId, $row['value'])");
+	$db->query("INSERT INTO scripture_topic (scripture_id, topic_id) VALUES ($newId, $row['value'])");
 }
 
 
