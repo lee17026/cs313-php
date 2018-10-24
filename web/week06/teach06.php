@@ -35,7 +35,7 @@ catch (PDOException $ex)
   <body>
 	<h1>Scripture Resources</h1>
         <ul>
-        <?php foreach ($db->query("SELECT * FROM public.scriptures") as $row): ?>
+        <?php foreach ($db->query("SELECT s.book, s.chapter, s.verse, s.content, string_agg(t.name, ', ') FROM scriptures s JOIN scripture_topic st ON s.id = st.scripture_id JOIN topic t ON st.topic_id = t.id GROUP BY s.id") as $row): ?>
             <li>
                 <strong>
                     <?php echo($row["book"]); ?>
@@ -43,6 +43,7 @@ catch (PDOException $ex)
                 </strong>
                 &ndash;
                 &ldquo;<?php echo($row["content"]); ?>&rdquo;
+				 Topics: <?=$row["string_agg"]?>
             </li>
         <?php endforeach; ?>
         </ul>

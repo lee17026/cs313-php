@@ -28,16 +28,23 @@ $verse = htmlspecialchars($_POST['verse']);
 $content = htmlspecialchars($_POST['content']);
 $topics = $_POST['topics'];
 
+// stretch 1
 $newTopicID = 0;
 // deal with the new checkbox
 if (isset($_POST['newTopicCheck'])) {
+	// get the new topic's name
 	$newTopicName = htmlspecialchars($_POST['newTopicText']);
 	$db->query("INSERT INTO topic (name) VALUES ('$newTopicName')");
+	
+	// store that new topic's id for later use
 	$newTopicID = $db->lastInsertId('topic_id_seq');
 }
 
+// actual insert
 $db->query("INSERT INTO scriptures (book, chapter, verse, content) VALUES ('$book', $chapter, $verse, '$content')");
-$newId = $db->lastInsertId('scriptures_id_seq');
+$newId = $db->lastInsertId('scriptures_id_seq'); // keep the newest scripture's id
+
+// insert each topic link
 foreach ($topics as $row) {
 	$topicName = $row['value'];
 	$db->query("INSERT INTO scripture_topic (scripture_id, topic_id) VALUES ($newId, $topicName)");
@@ -46,7 +53,8 @@ if (isset($_POST['newTopicCheck'])) {
 	$db->query("INSERT INTO scripture_topic (scripture_id, topic_id) VALUES ($newId, $newTopicID)");
 }
 
-
+header("Location: teach06.php");
+die();
 // prepare insert statement
 //$stmt = db->prepare('INSERT INTO scriptures (book, chapter, verse, content) VALUES (:book, :chapter, :verse, :content)');
 
