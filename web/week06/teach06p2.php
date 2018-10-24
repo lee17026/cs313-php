@@ -30,7 +30,7 @@ $topics = $_POST['topics'];
 
 $newTopicID = 0;
 // deal with the new checkbox
-if (isset($_POST['newTopicCheck']) {
+if (isset($_POST['newTopicCheck'])) {
 	$newTopicName = htmlspecialchars($_POST['newTopicText']);
 	$db->query("INSERT INTO topic (name) VALUES ('$newTopicName')");
 	$newTopicID = $db->lastInsertId('topic_id_seq');
@@ -42,7 +42,7 @@ foreach ($topics as $row) {
 	$topicName = $row['value'];
 	$db->query("INSERT INTO scripture_topic (scripture_id, topic_id) VALUES ($newId, $topicName)");
 }
-if (isset($_POST['newTopicCheck']) {
+if (isset($_POST['newTopicCheck'])) {
 	$db->query("INSERT INTO scripture_topic (scripture_id, topic_id) VALUES ($newId, $newTopicID)");
 }
 
