@@ -26,7 +26,7 @@ $book = htmlspecialchars($_POST['book']);
 $chapter = htmlspecialchars($_POST['chapter']);
 $verse = htmlspecialchars($_POST['verse']);
 $content = htmlspecialchars($_POST['content']);
-//$topics = $_POST['topics'];
+$topics = $_POST['topics'];
 
 // stretch 1
 $newTopicID = 0;
@@ -45,12 +45,11 @@ $db->query("INSERT INTO scriptures (book, chapter, verse, content) VALUES ('$boo
 $newId = $db->lastInsertId('scriptures_id_seq'); // keep the newest scripture's id
 
 // insert each topic link
-/*
 foreach ($topics as $row) {
 	$topicName = $row['value'];
 	$db->query("INSERT INTO scripture_topic (scripture_id, topic_id) VALUES ($newId, $topicName)");
 }
-*/
+
 if (isset($_POST['newTopicCheck'])) {
 	$db->query("INSERT INTO scripture_topic (scripture_id, topic_id) VALUES ($newId, $newTopicID)");
 }

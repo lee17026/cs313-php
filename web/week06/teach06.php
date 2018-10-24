@@ -30,6 +30,7 @@ catch (PDOException $ex)
     <title>Week 06 Team Activity</title> 
 <script type="application/javascript">
 function sendScriptures() {
+	/*
 	// get the DOM form elements
 	let txtBook = document.getElementsByName('book')[0];
 	let txtChapter = document.getElementsByName('chapter')[0];
@@ -61,6 +62,8 @@ function sendScriptures() {
 	formData.append("newTopicCheck", newTopicCheck);
 	formData.append("newTopicText", newTopicText);
 	formData.append("topics", topics);
+	*/
+	var formData = new FormData(document.forms.namedItem("scriptureForm"));
 	
 	let xhr = new XMLHttpRequest();
 	xhr.onreadystatechange = function() {
@@ -93,7 +96,7 @@ function sendScriptures() {
         <?php endforeach; ?>
         </ul>
         <hr />
-        <form method="POST">
+        <form method="POST" name="scriptureForm">
             Book: <input type="text" name="book" />
             <br />
 			Chapter: <input type="number" name="chapter" min="1" step="1" />
