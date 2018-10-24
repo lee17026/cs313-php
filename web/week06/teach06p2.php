@@ -26,8 +26,14 @@ $book = htmlspecialchars($_POST['book']);
 $chapter = htmlspecialchars($_POST['chapter']);
 $verse = htmlspecialchars($_POST['verse']);
 $content = htmlspecialchars($_POST['content']);
+$topics = $_POST['topics'];
 
 $db->query("INSERT INTO scriptures (book, chapter, verse, content) VALUES ('$book', $chapter, $verse, '$content')");
+$newId = $db->lastInsertId('scriptures_id_seq');
+foreach ($topics as $row) {
+	$db->query("INESRT INTO scripture_topic (scripture_id, topic_id) VALUES ($newId, $row['value'])");
+}
+
 
 // prepare insert statement
 //$stmt = db->prepare('INSERT INTO scriptures (book, chapter, verse, content) VALUES (:book, :chapter, :verse, :content)');
@@ -46,7 +52,7 @@ $db->query("INSERT INTO scriptures (book, chapter, verse, content) VALUES ('$boo
   <body>
 	<h1>Scripture Resources</h1>
         <ul>
-        <?php foreach ($db->query("SELECT * FROM public.scriptures") as $row): ?>
+        <?php foreach ($db->query("SELECT s.book, s.chapter, s.verse, s.content, string_agg(t.name, ', ') FROM scriptures s JOIN scripture_topic st ON s.id = st.scripture_id JOIN topic t ON st.topic_id = t.id GROUP BY s.id") as $row): ?>
             <li>
                 <strong>
                     <?php echo($row["book"]); ?>
@@ -54,6 +60,7 @@ $db->query("INSERT INTO scriptures (book, chapter, verse, content) VALUES ('$boo
                 </strong>
                 &ndash;
                 &ldquo;<?php echo($row["content"]); ?>&rdquo;
+				 Topics: <?=$row["string_agg"]?>
             </li>
         <?php endforeach; ?>
         </ul>

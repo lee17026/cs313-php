@@ -56,8 +56,8 @@ catch (PDOException $ex)
             <br />
 			Content: <textarea name="content" rows="10" cols="20"></textarea>
 			<br />
-			<?php foreach ($db->query("SELECT name FROM public.topic") as $row): ?>
-				<input type="checkbox" name="testname" value="<?=$row['name']?>"> <?=$row['name']?><br>
+			<?php foreach ($db->query("SELECT * FROM public.topic") as $row): ?>
+				<input type="checkbox" name="topics[]" value="<?=$row['id']?>"> <?=$row['name']?><br>
 			<?php endforeach; ?>
             <input type="submit" value="Submit" formaction="teach06p2.php" />
         </form>
