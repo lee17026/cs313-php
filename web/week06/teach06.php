@@ -59,6 +59,9 @@ catch (PDOException $ex)
 			<?php foreach ($db->query("SELECT * FROM public.topic") as $row): ?>
 				<input type="checkbox" name="topics[]" value="<?=$row['id']?>"> <?=$row['name']?><br>
 			<?php endforeach; ?>
+			<br />
+			<input type="checkbox" name="newTopicCheck" value="isNewTopicCheck" />
+			New Topic: <input type="text" name="newTopicText" />
             <input type="submit" value="Submit" formaction="teach06p2.php" />
         </form>
   </body>
