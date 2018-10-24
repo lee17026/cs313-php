@@ -66,7 +66,7 @@ function sendScriptures() {
 	xhr.onreadystatechange = function() {
 		if (this.readyState == 4 && this.status == 200) {
 			var list1 = document.getElementById("list1");
-			list1.innerHTML = this.responseXML;
+			list1.innerHTML = this.response;
 		}
 	};
 	
