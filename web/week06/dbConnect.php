@@ -23,4 +23,5 @@ function get_db() {
 	}
 	
 	return $db;
+}
 ?>

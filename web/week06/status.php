@@ -6,8 +6,8 @@ $query = array
   array("silo_number" => "12", "amount" => 13679)
   );
   */
-require("dbConnect.php");
-	$db = get_db();
+require 'dbConnect.php';
+$db = get_db();
 ?>
 <!DOCTYPE html>
 <html lang="en-US">

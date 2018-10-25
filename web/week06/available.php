@@ -6,7 +6,7 @@ $query = array
   array("batch_code" => "824124", "amount" => 48000, "location" => 2)
   );
 */
-require("dbConnect.php");
+require 'dbConnect.php';
 $db = get_db();
 ?>
 <!DOCTYPE html>

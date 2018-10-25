@@ -55,7 +55,7 @@ $filename=$_SERVER["PHP_SELF"];
     <?php
     $sugar_batch = htmlspecialchars($_POST['code']);
 	
-	require("dbConnect.php");
+	require 'dbConnect.php';
 	$db = get_db();
 	
 	/* dummy data for testing
