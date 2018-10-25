@@ -26,6 +26,7 @@
     </nav>
       
       <div class="container">
+	    <br />
         <h3>Week 01</h3>
         <a href="week01/hello.html">Week 01 Prove</a>
         <hr/>
@@ -46,6 +47,8 @@
         <hr/>
         <h3>Week 06</h3>
 		<a href="week06/teach06.php">Week 06 Team Activity</a>
+		<br />
+		<a href="week06/plantbcontrolroom.php">Week 06 Prove</a>
 		<br />
         <hr/>
         <h3>Week 07</h3>
