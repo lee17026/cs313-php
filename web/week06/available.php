@@ -115,6 +115,7 @@ $filename=$_SERVER["PHP_SELF"];
         array("id" => 2, "silo_number" => "12", "amount" => 50000)
       );*/
       $amountInTargetSilo = $silo[$newSiloNumber - 1]["amount"];
+	  echo "There is currently $amountInTargetSilo lbs in silo 1$newSiloNumber.<br/>";
       if ($newAmount + $amountInTargetSilo <= 100000) {
         // proceed to insert this new row
         $db->query("INSERT INTO sugar_shipment (batch_code, amount, location, created_by, last_updated_by) VALUES ('$newBatchCode', $newAmount, $newSiloNumber, 1, 1);");
@@ -126,6 +127,7 @@ $filename=$_SERVER["PHP_SELF"];
         
       } else {
         // TOO MUCH SUGAR MAN!
+		echo "ABORT";
         echo '
         <div class="alert alert-danger">
           <strong>Danger!</strong> Maximum silo capacity reached. Do not proceed.
