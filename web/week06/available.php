@@ -107,7 +107,7 @@ $filename=$_SERVER["PHP_SELF"];
       echo "Batch $newBatchCode will go into silo 1$newSiloNumber with $newAmount lbs of sugar.<br/>";
       
       // first make sure the silo can hold the whole shipment
-      $siloPDO = $db->query("SELECT id, silo_number, amount FROM sugar_silo");
+      $siloPDO = $db->query("SELECT id, silo_number, amount FROM sugar_silo WHERE id = $newSiloNumber");
 	  $silo = $siloPDO->fetch();
 	  var_dump($silo);
 	  /* dummy data
@@ -116,7 +116,7 @@ $filename=$_SERVER["PHP_SELF"];
         array("id" => 1, "silo_number" => "11", "amount" => 35000),
         array("id" => 2, "silo_number" => "12", "amount" => 50000)
       );*/
-      $amountInTargetSilo = $silo[$newSiloNumber - 1]["amount"];
+      $amountInTargetSilo = $silo["amount"];
 	  echo "There is currently $amountInTargetSilo lbs in silo 1$newSiloNumber.<br/>";
       if ($newAmount + $amountInTargetSilo <= 100000) {
         // proceed to insert this new row
