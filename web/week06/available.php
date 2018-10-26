@@ -107,7 +107,8 @@ $filename=$_SERVER["PHP_SELF"];
       echo "Batch $newBatchCode will go into silo 1$newSiloNumber with $newAmount lbs of sugar.<br/>";
       
       // first make sure the silo can hold the whole shipment
-      $silo = $db->query("SELECT id, silo_number, amount FROM sugar_silo");
+      $siloPDO = $db->query("SELECT id, silo_number, amount FROM sugar_silo");
+	  $silo = $siloPDO->fetch();
 	  /* dummy data
       $silo = array
       (
