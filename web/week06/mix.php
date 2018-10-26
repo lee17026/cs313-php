@@ -1,6 +1,22 @@
 <?php
 // set up $filename
 $filename=$_SERVER["PHP_SELF"];
+// connect
+require 'dbConnect.php';
+$db = get_db();
+// set up recipes and silo arrays
+$recipes = array();
+foreach ($db->query("SELECT id, recipe_code, recipe_name, sugar_amount FROM recipe ORDER BY recipe_code") as $row) {
+	$recipes[] = $row;
+}
+$silo = array();
+foreach ($db->query("SELECT id, silo_number, amount FROM sugar_silo") as $row) {
+	$silo[] = $row;
+}
+var_dump($recipes);
+echo "<br/>";
+var_dump($silo);
+echo "<br/>";
 ?>
 <!DOCTYPE html>
 <html lang="en-US">
@@ -31,69 +47,40 @@ $filename=$_SERVER["PHP_SELF"];
     <!-- Welcome and Instructions -->
     <div class="container">
       <h1 class="text-center">Mix Batches</h1>
-      <p class="text-center">Please select a recipe code to mix.</p>
+      <p class="text-center">Please select a recipe code and silo number to mix.</p>
     </div>
     <br />
     
     <!-- Form -->
     <form class="form-horizontal" action="<?=$filename?>" method="post">
       <div class="form-group">
-        <label class="control-label col-sm-2" for="code">Recipe Code:</label>
-        <div class="col-sm-10">
-          <input type="text" class="form-control" name="code" id="code" placeholder="Example: 660002">
+        <label class="control-label col-sm-2" for="recipe_code">Select Recipe:</label>
+        <div class="form-group">
+          <select class="form-control" id="recipe_code" name="recipe_code">
+            <?php foreach ($recipes as $row): ?>
+            <option value="<?=$row['id']?>"><?=$row['recipe_code'] . ' - ' . $row['recipe_name']?></option>
+            <?php endforeach; ?>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label col-sm-2" for="silo_code">Select Silo:</label>
+        <div class="form-group">
+          <select class="form-control" id="silo_code" name="silo_code">
+            <?php foreach ($silo as $row): ?>
+            <option value="<?=$row['id']?>"><?="Silo " . $row['silo_number'] . ' - ' . $row['amount'] . "lbs of sugar"?></option>
+            <?php endforeach; ?>
+          </select>
         </div>
       </div>
       <div class="form-group"> 
         <div class="col-sm-offset-2 col-sm-10">
-          <button type="submit" class="btn btn-default">Forecast</button>
+          <button type="submit" class="btn btn-default">Mix</button>
         </div>
       </div>
     </form>
     
-    <!-- Table -->
-    <?php if ($_SERVER['REQUEST_METHOD'] == 'POST'): ?>
-    <?php
-	$recipe_code = htmlspecialchars($_POST['code']);
-	
-	require 'dbConnect.php';
-	$db = get_db();
-	
-	// get the sum
-	$sum = 0;
-	foreach ($db->query("SELECT amount FROM public.sugar_silo") as $row)
-	{
-		$sum += $row['amount'];
-	}
-	/* dummy data for testing
-    $sum = 123456;
-    $query = array
-      (
-      array("sugar_amount" => 5550)
-      );
-    $numMixable = (int)($sum / $query[0]["sugar_amount"]);
-	*/
-    ?>
-    <div class="container">
-      <table class="table table-hover">
-      <thead>
-        <tr>
-          <th>Total Amount of Available Sugar (lbs)</th>
-          <th>Amount of Sugar Required per Batch of <?=$recipe_code?> (lbs)</th>
-          <th>Number of Mixable Batches of <?=$recipe_code?></th>
-        </tr>
-      </thead>
-      <tbody>
-        <?php foreach ($db->query("SELECT sugar_amount FROM public.recipe WHERE recipe_code = '$recipe_code'") as $row): ?>
-        <tr>
-          <td><?=$sum?></td>
-          <td><?=$row['sugar_amount']?></td>
-          <td><?=(int)($sum / $row['sugar_amount'])?></td>
-        </tr>
-        <?php endforeach; ?>
-      </tbody>
-      </table>
-    </div>
-    <?php endif; ?>
+    
 
   </body>
   
