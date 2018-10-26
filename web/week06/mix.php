@@ -10,7 +10,7 @@ foreach ($db->query("SELECT id, recipe_code, recipe_name, sugar_amount FROM reci
 	$recipes[] = $row;
 }
 $silo = array();
-foreach ($db->query("SELECT id, silo_number, amount FROM sugar_silo") as $row) {
+foreach ($db->query("SELECT id, silo_number, amount FROM sugar_silo ORDER BY id") as $row) {
 	$silo[] = $row;
 }
 /*var_dump($recipes);
@@ -68,7 +68,7 @@ echo "<br/>";*/
         <div class="form-group">
           <select class="form-control" id="silo_code" name="silo_code">
             <?php foreach ($silo as $row): ?>
-            <option value="<?=$row['id']?>"><?="Silo " . $row['silo_number'] . ' - ' . $row['amount'] . "lbs of sugar"?></option>
+            <option value="<?=$row['id']?>"><?="Silo " . $row['silo_number'] . ' - ' . number_format($row['amount'], 0, '', ',') . " lbs of sugar"?></option>
             <?php endforeach; ?>
           </select>
         </div>
@@ -117,7 +117,7 @@ echo "<br/>";*/
 	
     // first make sure there is enough sugar in that silo
     if ($availableAmountInSilo >= $requiredAmount) {
-      echo "$availableAmountInSilo lbs in the silo and we need $requiredAmount lbs.<br/>";
+      echo number_format($availableAmountInSilo, 0, '', ',') . " lbs in the silo and we need " . number_format($requiredAmount, 0, '', ',') . " lbs.<br/>";
       
       // find out which batch code we will be using
       // select the oldest batch id and amount where silo matches and amount is positive

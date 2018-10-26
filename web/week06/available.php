@@ -56,10 +56,10 @@ $filename=$_SERVER["PHP_SELF"];
         </tr>
       </thead>
       <tbody>
-        <?php foreach ($db->query("SELECT batch_code, amount, location FROM public.sugar_shipment") as $row): ?>
+        <?php foreach ($db->query("SELECT batch_code, amount, location FROM public.sugar_shipment ORDER BY id") as $row): ?>
         <tr>
           <td><?=$row['batch_code']?></td>
-          <td><?=$row['amount']?></td>
+          <td><?=number_format($row['amount'], 0, '', ',')?></td>
           <td>1<?=$row['location']?></td>
         </tr>
         <?php endforeach; ?>
@@ -104,7 +104,7 @@ $filename=$_SERVER["PHP_SELF"];
       $newAmount = htmlspecialchars($_POST['amount']);
       $newSiloNumber = (int)htmlspecialchars($_POST['siloNumber']);
       
-      echo "Batch $newBatchCode will go into silo 1$newSiloNumber with $newAmount lbs of sugar.<br/>";
+      echo "Batch $newBatchCode will go into silo 1$newSiloNumber with ". number_format($newAmount, 0, '', ',') . " lbs of sugar.<br/>";
       
       // first make sure the silo can hold the whole shipment
       $siloPDO = $db->query("SELECT id, silo_number, amount FROM sugar_silo WHERE id = $newSiloNumber");

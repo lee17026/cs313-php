@@ -55,7 +55,7 @@ $db = get_db();
         <?php foreach ($db->query("SELECT silo_number, amount FROM public.sugar_silo") as $row): ?>
         <tr>
           <td>Silo <?=$row['silo_number']?></td>
-          <td><?=$row['amount']?></td>
+          <td><?=number_format($row['amount'], 0, '', ',')?></td>
         </tr>
         <?php endforeach; ?>
       </tbody>
