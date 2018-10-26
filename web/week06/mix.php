@@ -80,48 +80,19 @@ echo "<br/>";*/
       </div>
     </form>
     
-	<!-- Form -->
-    <form class="form-horizontal" action="<?=$filename?>" method="post">
-      <div class="form-group">
-        <label class="control-label col-sm-2" for="recipe_code">Select Recipe:</label>
-        <div class="form-group">
-          <select class="form-control" id="recipe_code" name="recipe_code">
-            <?php foreach ($recipes as $row): ?>
-            <option value="<?=$row['id']?>"><?=$row['batch_code'] . ' - ' . $row['recipe_name']?></option>
-            <?php endforeach; ?>
-          </select>
-        </div>
-      </div>
-      <div class="form-group">
-        <label class="control-label col-sm-2" for="silo_code">Select Silo:</label>
-        <div class="form-group">
-          <select class="form-control" id="silo_code" name="silo_code">
-            <?php foreach ($silo as $row): ?>
-            <option value="<?=$row['id']?>"><?="Silo " . $row['silo_number'] . ' - ' . $row['amount'] . "lbs of sugar"?></option>
-            <?php endforeach; ?>
-          </select>
-        </div>
-      </div>
-      <div class="form-group"> 
-        <div class="col-sm-offset-2 col-sm-10">
-          <button type="submit" class="btn btn-default">Mix</button>
-        </div>
-      </div>
-    </form>
-    
     <!-- Form Handling -->
     <?php if ($_SERVER['REQUEST_METHOD'] == 'POST'): ?>
     <?php
-    var_dump($_POST);
+    //var_dump($_POST);
 	// get the id of the recipe
     $recipeID = (int)$_POST['recipe_code'];
-    echo "<br />";
-    var_dump($recipeID);
+    //echo "<br />";
+    //var_dump($recipeID);
 	// get the silo id and silo number
     $siloID = (int)$_POST['silo_code'];
     $siloNumber = "1" . (string)$siloID;
-    echo "<br />";
-    var_dump($siloID);
+    //echo "<br />";
+    //var_dump($siloID);
     
 	// hunt for the required amount and available amount
     $requiredAmount = 0;
@@ -133,6 +104,7 @@ echo "<br/>";*/
 		}
 		$huntIndex++;
 	}
+	$requiredAmountCONST = $requiredAmount;
 	
 	// get available amount in silo
     $availableAmountInSilo = 0;
@@ -171,7 +143,7 @@ echo "<br/>";*/
         
         // deplete the sugar in the first batch, $requiredAmount now equals the amount still needed
         $requiredAmount -= $availableAmountInBatch;
-        // QUERY update this batch to have 0 amount
+        $db->query("UPDATE sugar_shipment SET amount = 0 WHERE id = $batchID");
         
         // set this new sugar batch as the one we want to use
         $batchID = $batchID2;
@@ -180,17 +152,17 @@ echo "<br/>";*/
       } // end of not enough sugar in this one batch
       
       // update the main sugar batch code
-      // QUERY update the sugar batch to have less sugar
+      $db->query("UPDATE sugar_shipment SET amount = (SELECT amount FROM sugar_shipment WHERE id = $batchID) - $requiredAmount WHERE id = $batchID");
       echo "Subtracting sugar from batch $sugarBatchCode.  .  .  .  .  .  Done!<br/>";
       
       // mix this batch
-      // QUERY insert this mixed batch
+      $db->query("INSERT INTO batch (recipe, sugar_batch, created_by, last_updated_by) VALUES ($recipeID, $batchID, 1, 1)");
       // KEEP THE ID
-	  $newlyMixedBatchID = 12345;
+	  $newlyMixedBatchID = $db->lastInsertId('batch_id_seq');
       echo "Mixing this batch.  .  .  .  .  .  Done!<br/>";
       
       // update the silo
-      // QUERY update the silo by subtracting the amount used
+      $db->query("UPDATE sugar_silo SET amount = (SELECT amount FROM sugar_silo WHERE id = $siloID) - $requiredAmountCONST WHERE id = $siloID");
       echo "Updating silo $siloNumber.  .  .  .  .  .  Done!<br/>";
       
       echo "The batch was succesfully mixed! It has an id of $newlyMixedBatchID and uses sugar batch $sugarBatchCode. You can mix more batches or return to the Control Room.<br/>";
