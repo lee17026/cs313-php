@@ -127,7 +127,7 @@ echo "<br/>";*/
         array("id" => 37, "batch_code" => "821213", "amount" => 49000)
       );*/
 	  $shipments = array();
-	  foreach ($sb->query("SELECT id, batch_code, amount FROM sugar_shipment WHERE amount > 0 AND location = $siloID ORDER BY creation_date ASC") as $row) {
+	  foreach ($db->query("SELECT id, batch_code, amount FROM sugar_shipment WHERE amount > 0 AND location = $siloID ORDER BY creation_date ASC") as $row) {
 		  $shipments[] = $row;
 	  }
       $batchID = $shipments[0]["id"];
