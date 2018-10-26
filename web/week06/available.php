@@ -109,6 +109,7 @@ $filename=$_SERVER["PHP_SELF"];
       // first make sure the silo can hold the whole shipment
       $siloPDO = $db->query("SELECT id, silo_number, amount FROM sugar_silo");
 	  $silo = $siloPDO->fetch();
+	  var_dump($silo);
 	  /* dummy data
       $silo = array
       (
@@ -119,11 +120,11 @@ $filename=$_SERVER["PHP_SELF"];
 	  echo "There is currently $amountInTargetSilo lbs in silo 1$newSiloNumber.<br/>";
       if ($newAmount + $amountInTargetSilo <= 100000) {
         // proceed to insert this new row
-        $db->query("INSERT INTO sugar_shipment (batch_code, amount, location, created_by, last_updated_by) VALUES ('$newBatchCode', $newAmount, $newSiloNumber, 1, 1);");
+        //$db->query("INSERT INTO sugar_shipment (batch_code, amount, location, created_by, last_updated_by) VALUES ('$newBatchCode', $newAmount, $newSiloNumber, 1, 1);");
         echo "Inserting new sugar batch.  .  .  .  .  .  Done!<br/>";
         
         // update silo by adding more sugar
-        $db->query("UPDATE sugar_silo SET amount = (SELECT amount FROM sugar_silo WHERE id = $newSiloNumber) + $newAmount WHERE id = $newSiloNumber");
+        //$db->query("UPDATE sugar_silo SET amount = (SELECT amount FROM sugar_silo WHERE id = $newSiloNumber) + $newAmount WHERE id = $newSiloNumber");
         echo "Updating silo.  .  .  .  .  .  Done!<br/> Refresh this page to see changes.";
         
       } else {
