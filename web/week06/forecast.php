@@ -58,19 +58,21 @@ $filename=$_SERVER["PHP_SELF"];
 	require 'dbConnect.php';
 	$db = get_db();
 	
+	// get the sugar amount and name for the specified recipe code
+	$statement = $db->prepare('SELECT sugar_amount, recipe_name FROM public.recipe WHERE recipe_code = :recipe_code');
+	$statement->bindValue(':recipe_code', $recipe_code);
+	$statement->execute();
+	$query = $statement->fetch(PDO::FETCH_ASSOC);
+	$sugarAmount = $query['sugar_amount'];
+	$recipeName = $query['recipe_name'];
+
 	// get the sum
 	$sum = 0;
 	foreach ($db->query("SELECT amount FROM public.sugar_silo") as $row)
 	{
 		$sum += $row['amount'];
 	}
-	/* dummy data for testing
-    $sum = 123456;
-    $query = array
-      (
-      array("sugar_amount" => 5550)
-      );
-    $numMixable = (int)($sum / $query[0]["sugar_amount"]);
+
 	*/
     ?>
     <div class="container">
@@ -78,18 +80,16 @@ $filename=$_SERVER["PHP_SELF"];
       <thead>
         <tr>
           <th>Total Amount of Available Sugar (lbs)</th>
-          <th>Amount of Sugar Required per Batch of <?=$recipe_code?> (lbs)</th>
-          <th>Number of Mixable Batches of <?=$recipe_code?></th>
+          <th>Amount of Sugar Required per Batch of <?=$recipe_code?> - <?=$recipeName?> (lbs)</th>
+          <th>Number of Mixable Batches of <?=$recipe_code?> - <?=$recipeName?></th>
         </tr>
       </thead>
       <tbody>
-        <?php foreach ($db->query("SELECT sugar_amount FROM public.recipe WHERE recipe_code = '$recipe_code'") as $row): ?>
         <tr>
           <td><?=number_format($sum, 0, '', ',')?></td>
-          <td><?=$row['sugar_amount']?></td>
-          <td><?=(int)($sum / $row['sugar_amount'])?></td>
+          <td><?=$sugarAmount?></td>
+          <td><?=(int)($sum / $sugarAmount)?></td>
         </tr>
-        <?php endforeach; ?>
       </tbody>
       </table>
     </div>
