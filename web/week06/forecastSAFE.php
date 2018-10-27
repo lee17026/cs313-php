@@ -61,6 +61,7 @@ $filename=$_SERVER["PHP_SELF"];
 	$statement = $db->prepare('SELECT sugar_amount FROM public.recipe WHERE recipe_code = :recipe_code');
 	$statement->bindValue(':recipe_code', $recipe_code);
 	$statement->execute();
+	$query = $statement->fetch(PDO::FETCH_ASSOC);
 	
 	// get the sum
 	$sum = 0;
@@ -87,7 +88,7 @@ $filename=$_SERVER["PHP_SELF"];
         </tr>
       </thead>
       <tbody>
-        <?php foreach ($statement->fetch(PDO::FETCH_ASSOC) as $row): ?>
+        <?php foreach ($query as $row): ?>
         <tr>
           <td><?=number_format($sum, 0, '', ',')?></td>
           <td><?=$row['sugar_amount']?></td>
