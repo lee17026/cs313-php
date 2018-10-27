@@ -40,7 +40,7 @@ $filename=$_SERVER["PHP_SELF"];
       <div class="form-group">
         <label class="control-label col-sm-2" for="code">Recipe Code:</label>
         <div class="col-sm-10">
-          <input type="text" class="form-control" name="code" id="code" placeholder="Example: 660002">
+          <input type="text" class="form-control" name="code" id="code" maxlength="6" placeholder="Example: 660002">
         </div>
       </div>
       <div class="form-group"> 

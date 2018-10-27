@@ -67,7 +67,7 @@ $filename=$_SERVER["PHP_SELF"];
       <div class="form-group">
         <label class="control-label col-sm-2" for="code">New Batch Code:</label>
         <div class="col-sm-10">
-          <input type="text" class="form-control" name="code" id="code" placeholder="Example: 824184">
+          <input type="text" class="form-control" name="code" id="code" maxlength="6" placeholder="Example: 824184">
         </div>
       </div>
       <div class="form-group">
@@ -97,7 +97,7 @@ $filename=$_SERVER["PHP_SELF"];
       $newAmount = htmlspecialchars($_POST['amount']);
       $newSiloNumber = (int)htmlspecialchars($_POST['siloNumber']);
       
-      echo "Batch $newBatchCode will go into silo 1$newSiloNumber with ". number_format($newAmount, 0, '', ',') . " lbs of sugar.<br/>";
+      echo "Prepping batch $newBatchCode to go into silo 1$newSiloNumber with ". number_format($newAmount, 0, '', ',') . " lbs of sugar.<br/>";
       
       // first make sure the silo can hold the whole shipment
       $siloPDO = $db->query("SELECT id, silo_number, amount FROM sugar_silo WHERE id = $newSiloNumber");
