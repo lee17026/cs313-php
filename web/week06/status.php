@@ -1,11 +1,4 @@
 <?php
-/* dummy data for internal testing
-$query = array
-  (
-  array("silo_number" => "11", "amount" => 25000),
-  array("silo_number" => "12", "amount" => 13679)
-  );
-  */
 require 'dbConnect.php';
 $db = get_db();
 ?>

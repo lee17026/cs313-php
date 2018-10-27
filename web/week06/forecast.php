@@ -73,7 +73,6 @@ $filename=$_SERVER["PHP_SELF"];
 		$sum += $row['amount'];
 	}
 
-	*/
     ?>
     <div class="container">
       <table class="table table-hover">

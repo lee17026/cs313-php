@@ -58,15 +58,10 @@ $filename=$_SERVER["PHP_SELF"];
 	require 'dbConnect.php';
 	$db = get_db();
 	
-	/* dummy data for testing
-    $query = array
-      (
-      array("id" => 2, "recipe_name" => "Hoisin", "recipe_code" => "720001", "creation_date" => "2018-10-19"),
-      array("id" => 3, "recipe_name" => "Hoisin", "recipe_code" => "720001", "creation_date" => "2018-10-19"),
-      array("id" => 4, "recipe_name" => "Panda OS", "recipe_code" => "660002", "creation_date" => "2018-10-19"),
-      array("id" => 5, "recipe_name" => "Hoisin", "recipe_code" => "720001", "creation_date" => "2018-10-19"),
-      );
-	  */
+	// prepare the query based on the sugar batch code
+	$statement = $db->prepare('SELECT b.id, r.recipe_name, r.recipe_code, b.creation_date FROM batch b INNER JOIN recipe r ON b.recipe = r.id INNER JOIN sugar_shipment s ON b.sugar_batch = s.id WHERE s.batch_code = :sugar_batch');
+	$statement->bindValue(':sugar_batch', $sugar_batch);
+	$statement->execute();
     ?>
     <div class="container">
       <h1>All Batches Mixed with Batch Code <?=$sugar_batch?></h1>
@@ -80,14 +75,14 @@ $filename=$_SERVER["PHP_SELF"];
         </tr>
       </thead>
       <tbody>
-        <?php foreach ($db->query("SELECT b.id, r.recipe_name, r.recipe_code, b.creation_date FROM batch b INNER JOIN recipe r ON b.recipe = r.id INNER JOIN sugar_shipment s ON b.sugar_batch = s.id WHERE s.batch_code = '$sugar_batch'") as $row): ?>
+        <?php while ($row = $statement->fetch(PDO::FETCH_ASSOC)): ?>
         <tr>
           <td><?=$row['id']?></td>
           <td><?=$row['recipe_name']?></td>
           <td><?=$row['recipe_code']?></td>
           <td><?=$row['creation_date']?></td>
         </tr>
-        <?php endforeach; ?>
+        <?php endwhile; ?>
       </tbody>
       </table>
     </div>
