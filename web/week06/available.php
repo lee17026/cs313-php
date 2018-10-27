@@ -1,11 +1,4 @@
 <?php
-/* dummy data for testing
-$query = array
-  (
-  array("batch_code" => "824123", "amount" => 25000, "location" => 1),
-  array("batch_code" => "824124", "amount" => 48000, "location" => 2)
-  );
-*/
 // connect
 require 'dbConnect.php';
 $db = get_db();
@@ -109,24 +102,27 @@ $filename=$_SERVER["PHP_SELF"];
       // first make sure the silo can hold the whole shipment
       $siloPDO = $db->query("SELECT id, silo_number, amount FROM sugar_silo WHERE id = $newSiloNumber");
 	  $silo = $siloPDO->fetch();
-	  //var_dump($silo);
-	  /* dummy data
-      $silo = array
-      (
-        array("id" => 1, "silo_number" => "11", "amount" => 35000),
-        array("id" => 2, "silo_number" => "12", "amount" => 50000)
-      );*/
       $amountInTargetSilo = $silo["amount"];
 	  //echo "There is currently $amountInTargetSilo lbs in silo 1$newSiloNumber.<br/>";
+	  
+	  // only add the batch into the silo if there is space for the whole shipment
       if ($newAmount + $amountInTargetSilo <= 100000) {
         // proceed to insert this new row
-        $db->query("INSERT INTO sugar_shipment (batch_code, amount, location, created_by, last_updated_by) VALUES ('$newBatchCode', $newAmount, $newSiloNumber, 1, 1);");
+		$statement = $db->prepare('INSERT INTO sugar_shipment (batch_code, amount, location, created_by, last_updated_by) VALUES (:newBatchCode, :newAmount, :newSiloNumber, 1, 1)');
+	    $statement->bindValue(':newBatchCode', $newBatchCode);
+	    $statement->bindValue(':newAmount', $newAmount);
+	    $statement->bindValue(':newSiloNumber', $newSiloNumber);
+	    $statement->execute();
+        //$db->query("INSERT INTO sugar_shipment (batch_code, amount, location, created_by, last_updated_by) VALUES ('$newBatchCode', $newAmount, $newSiloNumber, 1, 1);");
         echo "Inserting new sugar batch.  .  .  .  .  .  Done!<br/>";
         
         // update silo by adding more sugar
-        $db->query("UPDATE sugar_silo SET amount = amount + $newAmount WHERE id = $newSiloNumber");
+		$statement = $db->prepare('UPDATE sugar_silo SET amount = amount + :newAmount WHERE id = :newSiloNumber');
+	    $statement->bindValue(':newAmount', $newAmount);
+	    $statement->bindValue(':newSiloNumber', $newSiloNumber);
+	    $statement->execute();
+        //$db->query("UPDATE sugar_silo SET amount = amount + $newAmount WHERE id = $newSiloNumber");
         echo "Updating silo.  .  .  .  .  .  Done!<br/>";
-        
       } else {
         // TOO MUCH SUGAR MAN!
         echo '
