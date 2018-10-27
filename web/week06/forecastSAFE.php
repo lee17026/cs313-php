@@ -62,6 +62,11 @@ $filename=$_SERVER["PHP_SELF"];
 	$statement->bindValue(':recipe_code', $recipe_code);
 	$statement->execute();
 	$query = $statement->fetch(PDO::FETCH_ASSOC);
+	var_dump($query);
+	echo "LINE66 <br/>";
+	$query = $statement->fetch(PDO::FETCH_NUM);
+	var_dump($query);
+	echo "LINE69 <br/>";
 	
 	// get the sum
 	$sum = 0;
