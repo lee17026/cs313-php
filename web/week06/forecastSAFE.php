@@ -58,16 +58,13 @@ $filename=$_SERVER["PHP_SELF"];
 	require 'dbConnect.php';
 	$db = get_db();
 	
+	// get the sugar amount
 	$statement = $db->prepare('SELECT sugar_amount FROM public.recipe WHERE recipe_code = :recipe_code');
 	$statement->bindValue(':recipe_code', $recipe_code);
 	$statement->execute();
 	$query = $statement->fetch(PDO::FETCH_ASSOC);
-	var_dump($query);
-	echo "LINE66 <br/>";
-	$query = $statement->fetch(PDO::FETCH_NUM);
-	var_dump($query);
-	echo "LINE69 <br/>";
-	
+	$sugarAmount = $query['sugar_amount'];
+
 	// get the sum
 	$sum = 0;
 	foreach ($db->query("SELECT amount FROM public.sugar_silo") as $row)
@@ -93,13 +90,11 @@ $filename=$_SERVER["PHP_SELF"];
         </tr>
       </thead>
       <tbody>
-        <?php foreach ($query as $row): ?>
         <tr>
           <td><?=number_format($sum, 0, '', ',')?></td>
-          <td><?=$row['sugar_amount']?></td>
-          <td><?=(int)($sum / $row['sugar_amount'])?></td>
+          <td><?=$sugarAmount?></td>
+          <td><?=(int)($sum / $sugarAmount)?></td>
         </tr>
-        <?php endforeach; ?>
       </tbody>
       </table>
     </div>
