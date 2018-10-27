@@ -4,7 +4,7 @@ $filename=$_SERVER["PHP_SELF"];
 // connect
 require 'dbConnect.php';
 $db = get_db();
-// set up recipes and silo arrays
+// set up recipes and silo arrays for our dropdown selection menu
 $recipes = array();
 foreach ($db->query("SELECT id, recipe_code, recipe_name, sugar_amount FROM recipe ORDER BY recipe_code") as $row) {
 	$recipes[] = $row;
@@ -13,10 +13,6 @@ $silo = array();
 foreach ($db->query("SELECT id, silo_number, amount FROM sugar_silo ORDER BY id") as $row) {
 	$silo[] = $row;
 }
-/*var_dump($recipes);
-echo "<br/>";
-var_dump($silo);
-echo "<br/>";*/
 ?>
 <!DOCTYPE html>
 <html lang="en-US">
@@ -83,16 +79,12 @@ echo "<br/>";*/
     <!-- Form Handling -->
     <?php if ($_SERVER['REQUEST_METHOD'] == 'POST'): ?>
     <?php
-    //var_dump($_POST);
 	// get the id of the recipe
     $recipeID = (int)$_POST['recipe_code'];
-    //echo "<br />";
-    //var_dump($recipeID);
+	
 	// get the silo id and silo number
     $siloID = (int)$_POST['silo_code'];
     $siloNumber = "1" . (string)$siloID;
-    //echo "<br />";
-    //var_dump($siloID);
     
 	// hunt for the required amount and available amount
     $requiredAmount = 0;
@@ -119,15 +111,13 @@ echo "<br/>";*/
     if ($availableAmountInSilo >= $requiredAmount) {
       echo number_format($availableAmountInSilo, 0, '', ',') . " lbs in the silo and we need " . number_format($requiredAmount, 0, '', ',') . " lbs.<br/>";
       
-      // find out which batch code we will be using
-      // select the oldest batch id and amount where silo matches and amount is positive
-      /*$shipments = array
-      (
-        array("id" => 35, "batch_code" => "821211", "amount" => 35000), 
-        array("id" => 37, "batch_code" => "821213", "amount" => 49000)
-      );*/
+      // find out which batch code we will be using by slecting the oldest 
+      //    batch id and amount where silo ID matches and amount is positive
 	  $shipments = array();
-	  foreach ($db->query("SELECT id, batch_code, amount FROM sugar_shipment WHERE amount > 0 AND location = $siloID ORDER BY creation_date ASC") as $row) {
+	  $statement = $db->prepare('SELECT id, batch_code, amount FROM sugar_shipment WHERE amount > 0 AND location = :siloID ORDER BY creation_date ASC');
+	  $statement->bindValue(':siloID', $siloID);
+	  $statement->execute();
+	  while ($row = $statement->fetch(PDO::FETCH_ASSOC)) {
 		  $shipments[] = $row;
 	  }
       $batchID = $shipments[0]["id"];
@@ -136,6 +126,8 @@ echo "<br/>";*/
       
       // make sure there's enough sugar in this batch code
       if ($availableAmountInBatch < $requiredAmount) {
+		// this means we are going to deplete a batch of sugar, so start 
+		//    tracking the next one too
         $batchID2 = $shipments[1]["id"];
         $availableAmountInBatch2 = $shipments[1]["amount"];
         $sugarBatchCode2 = $shipments[1]["batch_code"];
@@ -143,7 +135,10 @@ echo "<br/>";*/
         
         // deplete the sugar in the first batch, $requiredAmount now equals the amount still needed
         $requiredAmount -= $availableAmountInBatch;
-        $db->query("UPDATE sugar_shipment SET amount = 0 WHERE id = $batchID");
+		$statement = $db->prepare('UPDATE sugar_shipment SET amount = 0 WHERE id = :batchID');
+		$statement->bindValue(':batchID', $batchID);
+		$statement->execute();
+        //$db->query("UPDATE sugar_shipment SET amount = 0 WHERE id = $batchID");
         
         // set this new sugar batch as the one we want to use
         $batchID = $batchID2;
@@ -152,17 +147,29 @@ echo "<br/>";*/
       } // end of not enough sugar in this one batch
       
       // update the main sugar batch code
-      $db->query("UPDATE sugar_shipment SET amount = amount - $requiredAmount WHERE id = $batchID");
+      $statement = $db->prepare('UPDATE sugar_shipment SET amount = amount - :requiredAmount WHERE id = :batchID');
+	  $statement->bindValue(':requiredAmount', $requiredAmount);
+	  $statement->bindValue(':batchID', $batchID);
+	  $statement->execute();
+	  //$db->query("UPDATE sugar_shipment SET amount = amount - $requiredAmount WHERE id = $batchID");
       echo "Subtracting sugar from batch $sugarBatchCode.  .  .  .  .  .  Done!<br/>";
       
       // mix this batch
-      $db->query("INSERT INTO batch (recipe, sugar_batch, created_by, last_updated_by) VALUES ($recipeID, $batchID, 1, 1)");
+	  $statement = $db->prepare('INSERT INTO batch (recipe, sugar_batch, created_by, last_updated_by) VALUES (:recipeID, :batchID, 1, 1)');
+	  $statement->bindValue(':recipeID', $recipeID);
+	  $statement->bindValue(':batchID', $batchID);
+	  $statement->execute();
+      //$db->query("INSERT INTO batch (recipe, sugar_batch, created_by, last_updated_by) VALUES ($recipeID, $batchID, 1, 1)");
       // KEEP THE ID
 	  $newlyMixedBatchID = $db->lastInsertId('batch_id_seq');
       echo "Mixing this batch.  .  .  .  .  .  Done!<br/>";
       
       // update the silo
-      $db->query("UPDATE sugar_silo SET amount = amount - $requiredAmountCONST WHERE id = $siloID");
+	  $statement = $db->prepare('UPDATE sugar_silo SET amount = amount - :requiredAmountCONST WHERE id = :siloID');
+	  $statement->bindValue(':requiredAmountCONST', $requiredAmountCONST);
+	  $statement->bindValue(':siloID', $siloID);
+	  $statement->execute();
+      //$db->query("UPDATE sugar_silo SET amount = amount - $requiredAmountCONST WHERE id = $siloID");
       echo "Updating silo $siloNumber.  .  .  .  .  .  Done!<br/>";
       
       echo "The batch was succesfully mixed! It has an id of $newlyMixedBatchID and uses sugar batch $sugarBatchCode. You can mix more batches or return to the Control Room.<br/>";
@@ -173,7 +180,6 @@ echo "<br/>";*/
     ?>
     <?php endif; ?>
     
-
   </body>
   
 </html>

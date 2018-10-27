@@ -86,7 +86,7 @@ $filename=$_SERVER["PHP_SELF"];
       <tbody>
         <tr>
           <td><?=number_format($sum, 0, '', ',')?></td>
-          <td><?=$sugarAmount?></td>
+          <td><?=number_format($sugarAmount, 0, '', ',')?></td>
           <td><?=(int)($sum / $sugarAmount)?></td>
         </tr>
       </tbody>
