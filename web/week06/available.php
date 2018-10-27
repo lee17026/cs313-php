@@ -41,7 +41,7 @@ $filename=$_SERVER["PHP_SELF"];
     <!-- Welcome and Instructions -->
     <div class="container">
       <h1 class="text-center">View Available and Update Sugar Batches</h1>
-      <p class="text-center"></p>
+      <p class="text-center">See available sugar batches (empty batches are not shown). Or add a new batch of sugar.</p>
     </div>
     <br />
     
@@ -56,7 +56,7 @@ $filename=$_SERVER["PHP_SELF"];
         </tr>
       </thead>
       <tbody>
-        <?php foreach ($db->query("SELECT batch_code, amount, location FROM public.sugar_shipment ORDER BY id") as $row): ?>
+        <?php foreach ($db->query("SELECT batch_code, amount, location FROM public.sugar_shipment WHERE amount > 0 ORDER BY id") as $row): ?>
         <tr>
           <td><?=$row['batch_code']?></td>
           <td><?=number_format($row['amount'], 0, '', ',')?></td>
@@ -124,7 +124,7 @@ $filename=$_SERVER["PHP_SELF"];
         echo "Inserting new sugar batch.  .  .  .  .  .  Done!<br/>";
         
         // update silo by adding more sugar
-        $db->query("UPDATE sugar_silo SET amount = (SELECT amount FROM sugar_silo WHERE id = $newSiloNumber) + $newAmount WHERE id = $newSiloNumber");
+        $db->query("UPDATE sugar_silo SET amount = amount + $newAmount WHERE id = $newSiloNumber");
         echo "Updating silo.  .  .  .  .  .  Done!<br/>";
         
       } else {

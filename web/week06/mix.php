@@ -152,7 +152,7 @@ echo "<br/>";*/
       } // end of not enough sugar in this one batch
       
       // update the main sugar batch code
-      $db->query("UPDATE sugar_shipment SET amount = (SELECT amount FROM sugar_shipment WHERE id = $batchID) - $requiredAmount WHERE id = $batchID");
+      $db->query("UPDATE sugar_shipment SET amount = amount - $requiredAmount WHERE id = $batchID");
       echo "Subtracting sugar from batch $sugarBatchCode.  .  .  .  .  .  Done!<br/>";
       
       // mix this batch
@@ -162,7 +162,7 @@ echo "<br/>";*/
       echo "Mixing this batch.  .  .  .  .  .  Done!<br/>";
       
       // update the silo
-      $db->query("UPDATE sugar_silo SET amount = (SELECT amount FROM sugar_silo WHERE id = $siloID) - $requiredAmountCONST WHERE id = $siloID");
+      $db->query("UPDATE sugar_silo SET amount = amount - $requiredAmountCONST WHERE id = $siloID");
       echo "Updating silo $siloNumber.  .  .  .  .  .  Done!<br/>";
       
       echo "The batch was succesfully mixed! It has an id of $newlyMixedBatchID and uses sugar batch $sugarBatchCode. You can mix more batches or return to the Control Room.<br/>";

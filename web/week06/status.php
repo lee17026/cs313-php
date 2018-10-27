@@ -52,7 +52,7 @@ $db = get_db();
         </tr>
       </thead>
       <tbody>
-        <?php foreach ($db->query("SELECT silo_number, amount FROM public.sugar_silo") as $row): ?>
+        <?php foreach ($db->query("SELECT silo_number, amount FROM public.sugar_silo ORDER BY id") as $row): ?>
         <tr>
           <td>Silo <?=$row['silo_number']?></td>
           <td><?=number_format($row['amount'], 0, '', ',')?></td>
