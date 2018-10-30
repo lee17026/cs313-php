@@ -27,7 +27,7 @@ if (is_loggedin()) {
     </div>
     
     <h1>Sign In Page</h1>
-     <form>
+     <form action="<?=$filename?>" method="post">
        User name:<br />
        <input type="text" name="username"><br>
        Password:<br />

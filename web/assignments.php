@@ -52,7 +52,7 @@
 		<br />
         <hr/>
         <h3>Week 07</h3>
-		<a href="week07/signup.php">Week 06 Team Activity</a>
+		<a href="week07/signup.php">Week 07 Team Activity</a>
 		<br />
         <hr/>
         <h3>Week 08</h3>
