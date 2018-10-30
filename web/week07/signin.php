@@ -53,7 +53,7 @@ if (is_loggedin()) {
       
       // prepare the returned query
       $returned = array();
-      while ($row = $stmt_check_use->fetch(PDO::FETCH_ASSOC)) {
+      while ($row = $stmt_check_user->fetch(PDO::FETCH_ASSOC)) {
         $returned[] = $row;
       }
       
