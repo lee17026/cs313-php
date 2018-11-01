@@ -83,7 +83,7 @@ $db = get_db();
       <div class="form-group">
         <label class="control-label col-sm-8" for="amount">Amount of Sugar (lbs):</label>
         <div class="col-sm-10">
-          <input type="number" class="form-control" name="amount" id="amount" min="0" max = "50000" step="1" placeholder="Example: 49500">
+          <input type="number" class="form-control" name="amount" id="amount" min="1" max = "50000" step="1" placeholder="Example: 49500">
         </div>
       </div>
       <label class="radio-inline col-sm-1">
@@ -103,7 +103,7 @@ $db = get_db();
     <?php 
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       // strip data
-      $newBatchCode = htmlspecialchars($_POST['code']);
+      $newBatchCode = (string)htmlspecialchars($_POST['code']);
       $newAmount = htmlspecialchars($_POST['amount']);
       $newSiloNumber = (int)htmlspecialchars($_POST['siloNumber']);
 	  $newOperatorID = $_SESSION['operator_id'];
