@@ -156,12 +156,16 @@ $db = get_db();
 		  ";
       } else {
         // TOO MUCH SUGAR MAN!
-        echo '
-        <div class="alert alert-danger alert-dismissible fade show">
-		  <button type="button" class="close" data-dismiss="alert">&times;</button>
+        echo "
+        <div class='alert alert-danger alert-dismissible fade show'>
+		  <button type='button' class='close' data-dismiss='alert'>&times;</button>
           <strong>Danger!</strong> Maximum silo capacity reached. Do not proceed.
         </div>
-        ';
+		<div class='alert alert-danger alert-dismissible fade show'>
+	      <button type='button' class='close' data-dismiss='alert'>&times;</button>
+		  <strong>Danger!</strong> Maximum silo capacity reached. Do not proceed.
+		</div>
+        ";
       }
     }
     ?>
