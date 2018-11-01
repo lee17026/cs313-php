@@ -48,9 +48,9 @@ if (!is_loggedin()) {
     <!-- Form -->
     <form class="form-horizontal" action="<?=$filename?>" method="post">
       <div class="form-group">
-        <label class="control-label col-sm-2" for="code">Recipe Code:</label>
+        <label class="control-label col-sm-8" for="code">Recipe Code:</label>
         <div class="col-sm-10">
-          <input type="text" class="form-control" name="code" id="code" maxlength="6" placeholder="Example: 660002">
+          <input type="text" class="form-control" name="code" id="code" maxlength="6" placeholder="Example: 660002" autofocus>
         </div>
       </div>
       <div class="form-group"> 

@@ -14,7 +14,7 @@ require_once "session_functions.php";
     <h1>Sign Up Page</h1>
      <form action="<?=$filename?>" method="post">
        User name:<br />
-       <input type="text" name="username"><br />
+       <input type="text" name="username" autofocus><br />
        Password:<br />
        <input type="password" name="password"><br />
        First name:<br />

@@ -45,13 +45,13 @@ if (is_loggedin()) {
 	<!-- Form -->
 	<form class="form-horizontal" action="<?=$filename?>" method="post">
       <div class="form-group">
-        <label class="control-label col-sm-2" for="username">Username:</label>
+        <label class="control-label col-sm-8" for="username">Username:</label>
         <div class="col-sm-10">
           <input type="text" class="form-control" name="username" id="username" maxlength="64">
         </div>
       </div>
 	  <div class="form-group">
-        <label class="control-label col-sm-2" for="password">Password:</label>
+        <label class="control-label col-sm-8" for="password">Password:</label>
         <div class="col-sm-10">
           <input type="password" class="form-control" name="password" id="password" maxlength="64">
         </div>

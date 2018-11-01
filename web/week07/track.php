@@ -48,9 +48,9 @@ if (!is_loggedin()) {
     <!-- Form -->
     <form class="form-horizontal" action="<?=$filename?>" method="post">
       <div class="form-group">
-        <label class="control-label col-sm-2" for="code">Batch Code:</label>
+        <label class="control-label col-sm-8" for="code">Batch Code:</label>
         <div class="col-sm-10">
-          <input type="text" class="form-control" name="code" id="code" maxlength="6" placeholder="Example: 824184">
+          <input type="text" class="form-control" name="code" id="code" maxlength="6" placeholder="Example: 824184" autofocus>
         </div>
       </div>
       <div class="form-group"> 
@@ -64,11 +64,16 @@ if (!is_loggedin()) {
     <?php if ($_SERVER['REQUEST_METHOD'] == 'POST'): ?>
     <?php
     $sugar_batch = htmlspecialchars($_POST['code']);
+	$role = $_SESSION['role'];
+	$isSupervisor = false;
+	if ($role == 'Supervisor') {
+		$isSupervisor = true;
+	}
 	
 	$db = get_db();
 	
 	// prepare the query based on the sugar batch code
-	$statement = $db->prepare('SELECT b.id, r.recipe_name, r.recipe_code, b.creation_date FROM batch b INNER JOIN recipe r ON b.recipe = r.id INNER JOIN sugar_shipment s ON b.sugar_batch = s.id WHERE s.batch_code = :sugar_batch');
+	$statement = $db->prepare('SELECT b.id, r.recipe_name, r.recipe_code, b.creation_date, o.first_name, o.last_name, o.role FROM batch b INNER JOIN recipe r ON b.recipe = r.id INNER JOIN sugar_shipment s ON b.sugar_batch = s.id JOIN operator o ON (o.id = b.last_updated_by) WHERE s.batch_code = :sugar_batch');
 	$statement->bindValue(':sugar_batch', $sugar_batch);
 	$statement->execute();
     ?>
@@ -81,6 +86,9 @@ if (!is_loggedin()) {
           <th>Recipe Name</th>
           <th>Recipe Code</th>
           <th>Date Mixed</th>
+		  <?php if ($isSupervisor): ?>
+          <th>Mixed By</th>
+		  <? endif; ?>
         </tr>
       </thead>
       <tbody>
@@ -90,6 +98,9 @@ if (!is_loggedin()) {
           <td><?=$row['recipe_name']?></td>
           <td><?=$row['recipe_code']?></td>
           <td><?=$row['creation_date']?></td>
+		  <?php if ($isSupervisor): ?>
+          <td><?=$row['role'] . " - " . $row['first_name'] . " " . $row['last_name']?></td>
+		  <? endif; ?>
         </tr>
         <?php endwhile; ?>
       </tbody>

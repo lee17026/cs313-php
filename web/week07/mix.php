@@ -61,7 +61,7 @@ foreach ($db->query("SELECT id, silo_number, amount FROM sugar_silo ORDER BY id"
     <!-- Form -->
     <form class="form-horizontal" action="<?=$filename?>" method="post">
       <div class="form-group">
-        <label class="control-label" for="recipe_code">Select Recipe:</label>
+        <label class="control-label col-sm-8" for="recipe_code">Select Recipe:</label>
         <div class="form-group">
           <select class="form-control" id="recipe_code" name="recipe_code">
             <?php foreach ($recipes as $row): ?>
