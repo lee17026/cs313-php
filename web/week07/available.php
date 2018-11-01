@@ -75,13 +75,13 @@ $db = get_db();
     <!-- Enter New Shipment -->
     <form class="form-horizontal" action="<?=$filename?>" method="post">
       <div class="form-group">
-        <label class="control-label col-sm-2" for="code">New Batch Code:</label>
+        <label class="control-label col-sm-8" for="code">New Batch Code:</label>
         <div class="col-sm-10">
           <input type="text" class="form-control" name="code" id="code" maxlength="6" placeholder="Example: 824184">
         </div>
       </div>
       <div class="form-group">
-        <label class="control-label col-sm-5" for="amount">Amount of Sugar (lbs):</label>
+        <label class="control-label col-sm-8" for="amount">Amount of Sugar (lbs):</label>
         <div class="col-sm-10">
           <input type="number" class="form-control" name="amount" id="amount" min="0" max = "50000" step="1" placeholder="Example: 49500">
         </div>
@@ -107,6 +107,18 @@ $db = get_db();
       $newAmount = htmlspecialchars($_POST['amount']);
       $newSiloNumber = (int)htmlspecialchars($_POST['siloNumber']);
 	  $newOperatorID = $_SESSION['operator_id'];
+	  
+	  // double check input
+	  if (!ctype_digit($newBatchCode) && $newBatchCode.strlen() != 6) {
+		  // the batch code is malformed!
+		  echo "
+		  <div class='alert alert-danger alert-dismissible fade show'>
+			<button type='button' class='close' data-dismiss='alert'>&times;</button>
+			<strong>Bad Batch Code!</strong> Batch codes must contain exactly 6 numbers.
+		  </div>
+		  ";
+		  die();
+	  }
       
       echo "
       <div class='alert alert-info alert-dismissible fade show'>
@@ -129,26 +141,39 @@ $db = get_db();
 	    $statement->bindValue(':newAmount', $newAmount);
 	    $statement->bindValue(':newSiloNumber', $newSiloNumber);
 	    $statement->bindValue(':newOperatorID', $newOperatorID);
-	    $statement->execute();
-		echo "
-		  <div class='alert alert-success alert-dismissible fade show'>
-			<button type='button' class='close' data-dismiss='alert'>&times;</button>
-			<strong>Success!</strong> Batch $newBatchCode inserted into silo 1$newSiloNumber.
-		  </div>
-		  ";
+	    if ($statement->execute()) {
+			echo "
+			  <div class='alert alert-success alert-dismissible fade show'>
+				<button type='button' class='close' data-dismiss='alert'>&times;</button>
+				<strong>Success!</strong> Batch $newBatchCode inserted into silo 1$newSiloNumber.
+			  </div>
+			  ";
+		} else {
+			// unable to insert
+			echo "
+			  <div class='alert alert-danger alert-dismissible fade show'>
+				<button type='button' class='close' data-dismiss='alert'>&times;</button>
+				<strong>Unable to Insert!</strong> Batch code may already exist.
+			  </div>
+			  ";
+			  die();
+		}
         
         // update silo by adding more sugar
 		$statement = $db->prepare('UPDATE sugar_silo SET amount = amount + :newAmount, last_updated_by = :newOperatorID WHERE id = :newSiloNumber');
 	    $statement->bindValue(':newAmount', $newAmount);
 	    $statement->bindValue(':newSiloNumber', $newSiloNumber);
 	    $statement->bindValue(':newOperatorID', $newOperatorID);
-	    $statement->execute();
-		echo "
-		  <div class='alert alert-success alert-dismissible fade show'>
-			<button type='button' class='close' data-dismiss='alert'>&times;</button>
-			<strong>Success!</strong> Silo 1$newSiloNumber updated.
-		  </div>
-		  ";
+		if ($statement->execute()) {
+			echo "
+			  <div class='alert alert-success alert-dismissible fade show'>
+				<button type='button' class='close' data-dismiss='alert'>&times;</button>
+				<strong>Success!</strong> Silo 1$newSiloNumber updated.
+			  </div>
+			  ";
+		} else {
+			// unable to update
+		}
       } else {
         // TOO MUCH SUGAR MAN!
         echo "
