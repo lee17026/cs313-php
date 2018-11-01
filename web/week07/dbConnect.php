@@ -1,20 +1,4 @@
 <?php
-// must start the session to check session variables
-session_start();
-
-// set up $filename to point to itself
-$filename=$_SERVER["PHP_SELF"];
-
-// determines if the user is logged in
-function is_loggedin() {
-  if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true) {
-    return true;
-  } else {
-    return false;
-  }
-}
-
-// connects to a heroku db and returns a PDO object
 function get_db() {
 	$db = NULL;
 	
@@ -40,5 +24,4 @@ function get_db() {
 	
 	return $db;
 }
-
 ?>
