@@ -119,7 +119,7 @@ $db = get_db();
 		  ";
 		  die();
 	  }
-	  if (empty($_POST['amount']) {
+	  if (empty($_POST['amount'])) {
 		  // no amount!
 		  echo "
 		  <div class='alert alert-danger alert-dismissible fade show'>
