@@ -71,7 +71,7 @@ foreach ($db->query("SELECT id, silo_number, amount FROM sugar_silo ORDER BY id"
         </div>
       </div>
       <div class="form-group">
-        <label class="control-label col-sm-2" for="silo_code">Select Silo:</label>
+        <label class="control-label col-sm-8" for="silo_code">Select Silo:</label>
         <div class="form-group">
           <select class="form-control" id="silo_code" name="silo_code">
             <?php foreach ($silo as $row): ?>
