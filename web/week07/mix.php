@@ -125,7 +125,7 @@ foreach ($db->query("SELECT id, silo_number, amount FROM sugar_silo ORDER BY id"
       echo "
 		  <div class='alert alert-info alert-dismissible fade show'>
 			<button type='button' class='close' data-dismiss='alert'>&times;</button>
-			Preparing to mix recipe $recipeID by using " . number_format($requiredAmount, 0, '', ',') . " lbs of sugar from silo $siloNumber.
+			Preparing to mix by using " . number_format($requiredAmount, 0, '', ',') . " lbs of sugar from silo $siloNumber.
 		  </div>
 		  ";
 	  
@@ -180,7 +180,7 @@ foreach ($db->query("SELECT id, silo_number, amount FROM sugar_silo ORDER BY id"
 		  echo "
 			  <div class='alert alert-success alert-dismissible fade show'>
 				<button type='button' class='close' data-dismiss='alert'>&times;</button>
-				<strong>Success!</strong> Sugar amount for $sugarBatchCode updated.
+				<strong>Success!</strong> Sugar amount for batch $sugarBatchCode updated.
 			  </div>
 			  ";
 	  }

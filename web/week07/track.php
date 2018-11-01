@@ -87,7 +87,16 @@ if (!is_loggedin()) {
 	// prepare the query based on the sugar batch code
 	$statement = $db->prepare('SELECT b.id, r.recipe_name, r.recipe_code, b.creation_date, o.first_name, o.last_name, o.role FROM batch b INNER JOIN recipe r ON b.recipe = r.id INNER JOIN sugar_shipment s ON b.sugar_batch = s.id JOIN operator o ON (o.id = b.last_updated_by) WHERE s.batch_code = :sugar_batch');
 	$statement->bindValue(':sugar_batch', $sugar_batch);
-	$statement->execute();
+	if (!$statement->execute()) {
+		// row not found!
+		echo "
+		  <div class='alert alert-danger alert-dismissible fade show'>
+			<button type='button' class='close' data-dismiss='alert'>&times;</button>
+			<strong>No Such Batch!</strong> No batch found with code $sugar_batch. Please try a valid batch code.
+		  </div>
+		  ";
+		  die();
+	}
     ?>
     <div class="container">
       <h1>All Batches Mixed with Batch Code <?=$sugar_batch?></h1>

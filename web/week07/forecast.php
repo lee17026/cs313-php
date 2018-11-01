@@ -95,6 +95,18 @@ if (!is_loggedin()) {
 	$query = $statement->fetch(PDO::FETCH_ASSOC);
 	$sugarAmount = $query['sugar_amount'];
 	$recipeName = $query['recipe_name'];
+	
+	// double check for valid code
+	if ($sugarAmount < 1) {
+		// row not found!
+		echo "
+		  <div class='alert alert-danger alert-dismissible fade show'>
+			<button type='button' class='close' data-dismiss='alert'>&times;</button>
+			<strong>No Such Recipe!</strong> No recipe found for $recipe_code. Please try a valid recipe code.
+		  </div>
+		  ";
+		  die();
+	}
 
 	// get the sum
 	$sum = 0;
