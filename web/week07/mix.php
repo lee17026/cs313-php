@@ -92,6 +92,7 @@ foreach ($db->query("SELECT id, silo_number, amount FROM sugar_silo ORDER BY id"
     <?php
 	// get the id of the recipe
     $recipeID = (int)$_POST['recipe_code'];
+	$newOperatorID = $_SESSION['operator_id'];
 	
 	// get the silo id and silo number
     $siloID = (int)$_POST['silo_code'];
@@ -146,8 +147,9 @@ foreach ($db->query("SELECT id, silo_number, amount FROM sugar_silo ORDER BY id"
         
         // deplete the sugar in the first batch, $requiredAmount now equals the amount still needed
         $requiredAmount -= $availableAmountInBatch;
-		$statement = $db->prepare('UPDATE sugar_shipment SET amount = 0 WHERE id = :batchID');
+		$statement = $db->prepare('UPDATE sugar_shipment SET amount = 0, last_updated_by = :newOperatorID WHERE id = :batchID');
 		$statement->bindValue(':batchID', $batchID);
+	    $statement->bindValue(':newOperatorID', $newOperatorID);
 		$statement->execute();
         //$db->query("UPDATE sugar_shipment SET amount = 0 WHERE id = $batchID");
         
@@ -158,17 +160,19 @@ foreach ($db->query("SELECT id, silo_number, amount FROM sugar_silo ORDER BY id"
       } // end of not enough sugar in this one batch
       
       // update the main sugar batch code
-      $statement = $db->prepare('UPDATE sugar_shipment SET amount = amount - :requiredAmount WHERE id = :batchID');
+      $statement = $db->prepare('UPDATE sugar_shipment SET amount = amount - :requiredAmount, last_updated_by = :newOperatorID WHERE id = :batchID');
 	  $statement->bindValue(':requiredAmount', $requiredAmount);
 	  $statement->bindValue(':batchID', $batchID);
+	  $statement->bindValue(':newOperatorID', $newOperatorID);
 	  $statement->execute();
 	  //$db->query("UPDATE sugar_shipment SET amount = amount - $requiredAmount WHERE id = $batchID");
       echo "Subtracting sugar from batch $sugarBatchCode.  .  .  .  .  .  Done!<br/>";
       
       // mix this batch
-	  $statement = $db->prepare('INSERT INTO batch (recipe, sugar_batch, created_by, last_updated_by) VALUES (:recipeID, :batchID, 1, 1)');
+	  $statement = $db->prepare('INSERT INTO batch (recipe, sugar_batch, created_by, last_updated_by) VALUES (:recipeID, :batchID, :newOperatorID, :newOperatorID)');
 	  $statement->bindValue(':recipeID', $recipeID);
 	  $statement->bindValue(':batchID', $batchID);
+	  $statement->bindValue(':newOperatorID', $newOperatorID);
 	  $statement->execute();
       //$db->query("INSERT INTO batch (recipe, sugar_batch, created_by, last_updated_by) VALUES ($recipeID, $batchID, 1, 1)");
       // KEEP THE ID
@@ -176,9 +180,10 @@ foreach ($db->query("SELECT id, silo_number, amount FROM sugar_silo ORDER BY id"
       echo "Mixing this batch.  .  .  .  .  .  Done!<br/>";
       
       // update the silo
-	  $statement = $db->prepare('UPDATE sugar_silo SET amount = amount - :requiredAmountCONST WHERE id = :siloID');
+	  $statement = $db->prepare('UPDATE sugar_silo SET amount = amount - :requiredAmountCONST, last_updated_by = :newOperatorID WHERE id = :siloID');
 	  $statement->bindValue(':requiredAmountCONST', $requiredAmountCONST);
 	  $statement->bindValue(':siloID', $siloID);
+	  $statement->bindValue(':newOperatorID', $newOperatorID);
 	  $statement->execute();
       //$db->query("UPDATE sugar_silo SET amount = amount - $requiredAmountCONST WHERE id = $siloID");
       echo "Updating silo $siloNumber.  .  .  .  .  .  Done!<br/>";

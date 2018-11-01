@@ -106,6 +106,7 @@ $db = get_db();
       $newBatchCode = htmlspecialchars($_POST['code']);
       $newAmount = htmlspecialchars($_POST['amount']);
       $newSiloNumber = (int)htmlspecialchars($_POST['siloNumber']);
+	  $newOperatorID = $_SESSION['operator_id'];
       
       echo "Prepping batch $newBatchCode to go into silo 1$newSiloNumber with ". number_format($newAmount, 0, '', ',') . " lbs of sugar.<br/>";
       
@@ -118,18 +119,20 @@ $db = get_db();
 	  // only add the batch into the silo if there is space for the whole shipment
       if ($newAmount + $amountInTargetSilo <= 100000) {
         // proceed to insert this new row
-		$statement = $db->prepare('INSERT INTO sugar_shipment (batch_code, amount, location, created_by, last_updated_by) VALUES (:newBatchCode, :newAmount, :newSiloNumber, 1, 1)');
+		$statement = $db->prepare('INSERT INTO sugar_shipment (batch_code, amount, location, created_by, last_updated_by) VALUES (:newBatchCode, :newAmount, :newSiloNumber, :newOperatorID, :newOperatorID)');
 	    $statement->bindValue(':newBatchCode', $newBatchCode);
 	    $statement->bindValue(':newAmount', $newAmount);
 	    $statement->bindValue(':newSiloNumber', $newSiloNumber);
+	    $statement->bindValue(':newOperatorID', $newOperatorID);
 	    $statement->execute();
         //$db->query("INSERT INTO sugar_shipment (batch_code, amount, location, created_by, last_updated_by) VALUES ('$newBatchCode', $newAmount, $newSiloNumber, 1, 1);");
         echo "Inserting new sugar batch.  .  .  .  .  .  Done!<br/>";
         
         // update silo by adding more sugar
-		$statement = $db->prepare('UPDATE sugar_silo SET amount = amount + :newAmount WHERE id = :newSiloNumber');
+		$statement = $db->prepare('UPDATE sugar_silo SET amount = amount + :newAmount, last_updated_by = :newOperatorID WHERE id = :newSiloNumber');
 	    $statement->bindValue(':newAmount', $newAmount);
 	    $statement->bindValue(':newSiloNumber', $newSiloNumber);
+	    $statement->bindValue(':newOperatorID', $newOperatorID);
 	    $statement->execute();
         //$db->query("UPDATE sugar_silo SET amount = amount + $newAmount WHERE id = $newSiloNumber");
         echo "Updating silo.  .  .  .  .  .  Done!<br/>";

@@ -10,28 +10,19 @@ require_once "session_functions.php";
   </head>
   
   <body>
-    <div>
-      <a href="signup.php">Go to Sign Up Page</a>
-      <br />
-      <a href="signin.php">Go to Sign In Page</a>
-      <br />
-      <a href="welcome.php">Go to Welcome Page</a>
-      <br />
-      <a href="logout.php">Logout</a>
-    </div>
     
     <h1>Sign Up Page</h1>
      <form action="<?=$filename?>" method="post">
        User name:<br />
-       <input type="text" name="username"><br>
+       <input type="text" name="username"><br />
        Password:<br />
-       <input type="password" name="password">
+       <input type="password" name="password"><br />
        First name:<br />
-       <input type="text" name="first_name"><br>
+       <input type="text" name="first_name"><br />
        Last name:<br />
-       <input type="text" name="last_name"><br>
+       <input type="text" name="last_name"><br />
        Role:<br />
-       <input type="text" name="role"><br>
+       <input type="text" name="role"><br />
        <br /><br />
        <input type="submit" value="Sign Up">
        <input type="reset">

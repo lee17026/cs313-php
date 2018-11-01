@@ -41,7 +41,7 @@ if (!is_loggedin()) {
     
     <!-- Welcome and Instructions -->
     <div class="container">
-      <h1 class="text-center">Welcome to the Plant B Control Room!</h1>
+      <h1 class="text-center">Welcome <?=$_SESSION['first_name']?> to the Plant B Control Room!</h1>
       <p class="text-center">Please select one of the options below.</p>
     </div>
     <br />
