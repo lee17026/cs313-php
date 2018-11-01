@@ -119,6 +119,16 @@ $db = get_db();
 		  ";
 		  die();
 	  }
+	  if ($newSiloNumber != 1 || $newSiloNumber != 2) {
+		  // no silo was selected!
+		  echo "
+		  <div class='alert alert-danger alert-dismissible fade show'>
+			<button type='button' class='close' data-dismiss='alert'>&times;</button>
+			<strong>No Silo Selected!</strong> Please select a silo.
+		  </div>
+		  ";
+		  die();
+	  }
       
       echo "
       <div class='alert alert-info alert-dismissible fade show'>
