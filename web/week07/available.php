@@ -109,12 +109,22 @@ $db = get_db();
 	  $newOperatorID = $_SESSION['operator_id'];
 	  
 	  // double check input
-	  if (!ctype_digit($newBatchCode) || $newBatchCode.strlen() != 6) {
+	  if (!ctype_digit($newBatchCode) || strlen($newBatchCode) != 6 || empty($_POST['code'])) {
 		  // the batch code is malformed!
 		  echo "
 		  <div class='alert alert-danger alert-dismissible fade show'>
 			<button type='button' class='close' data-dismiss='alert'>&times;</button>
 			<strong>Bad Batch Code!</strong> Batch codes must contain exactly 6 numbers.
+		  </div>
+		  ";
+		  die();
+	  }
+	  if (empty($_POST['amount']) {
+		  // no amount!
+		  echo "
+		  <div class='alert alert-danger alert-dismissible fade show'>
+			<button type='button' class='close' data-dismiss='alert'>&times;</button>
+			<strong>No Amount Entered!</strong> Please enter an amount. 48000 is the norm.
 		  </div>
 		  ";
 		  die();
