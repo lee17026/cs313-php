@@ -76,19 +76,22 @@ if (is_loggedin()) {
       // query this user
       $stmt_check_user = $db->prepare('SELECT * FROM operator WHERE username = :username');
       $stmt_check_user->bindValue(':username', $username);
-      $stmt_check_user->execute();
+      if ($stmt_check_user->execute()) {
+		  // the user was found, so continue
+	  } else { // user was not found
+		// abort now
+		echo "
+        <div class='alert alert-danger alert-dismissible fade show'>
+		  <button type='button' class='close' data-dismiss='alert'>&times;</button>
+          Unable to log in. Please check username and password.
+        </div>
+        ";
+	  }
       
       // prepare the returned query
       $returned = array();
       while ($row = $stmt_check_user->fetch(PDO::FETCH_ASSOC)) {
         $returned[] = $row;
-      }
-      
-      // abort now if the username was not found
-      if (!isset($returned[0]['password'])) {
-        // redirect to signin page
-        header('Location: plantbbeepin.php');
-        die();
       }
       
       // get the hashed password for that user
@@ -108,9 +111,12 @@ if (is_loggedin()) {
         header('Location: plantbcontrolroom.php');
         die();
       } else { // password did not match
-        // redirect 
-        header('Location: plantbbeepin.php');
-        die();
+        echo "
+        <div class='alert alert-danger alert-dismissible fade show'>
+		  <button type='button' class='close' data-dismiss='alert'>&times;</button>
+          Unable to log in. Please check username and password.
+        </div>
+        ";
       }
     }
     ?>

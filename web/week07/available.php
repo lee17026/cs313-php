@@ -108,7 +108,6 @@ $db = get_db();
       $newSiloNumber = (int)htmlspecialchars($_POST['siloNumber']);
 	  $newOperatorID = $_SESSION['operator_id'];
       
-      echo "Prepping batch $newBatchCode to go into silo 1$newSiloNumber with ". number_format($newAmount, 0, '', ',') . " lbs of sugar.<br/>";
       echo "
       <div class='alert alert-info alert-dismissible fade show'>
 	    <button type='button' class='close' data-dismiss='alert'>&times;</button>
@@ -131,8 +130,6 @@ $db = get_db();
 	    $statement->bindValue(':newSiloNumber', $newSiloNumber);
 	    $statement->bindValue(':newOperatorID', $newOperatorID);
 	    $statement->execute();
-        //$db->query("INSERT INTO sugar_shipment (batch_code, amount, location, created_by, last_updated_by) VALUES ('$newBatchCode', $newAmount, $newSiloNumber, 1, 1);");
-        echo "Inserting new sugar batch.  .  .  .  .  .  Done!<br/>";
 		echo "
 		  <div class='alert alert-success alert-dismissible fade show'>
 			<button type='button' class='close' data-dismiss='alert'>&times;</button>
@@ -146,8 +143,6 @@ $db = get_db();
 	    $statement->bindValue(':newSiloNumber', $newSiloNumber);
 	    $statement->bindValue(':newOperatorID', $newOperatorID);
 	    $statement->execute();
-        //$db->query("UPDATE sugar_silo SET amount = amount + $newAmount WHERE id = $newSiloNumber");
-        echo "Updating silo.  .  .  .  .  .  Done!<br/>";
 		echo "
 		  <div class='alert alert-success alert-dismissible fade show'>
 			<button type='button' class='close' data-dismiss='alert'>&times;</button>
@@ -161,10 +156,6 @@ $db = get_db();
 		  <button type='button' class='close' data-dismiss='alert'>&times;</button>
           <strong>Danger!</strong> Maximum silo capacity reached. Do not proceed.
         </div>
-		<div class='alert alert-danger alert-dismissible fade show'>
-	      <button type='button' class='close' data-dismiss='alert'>&times;</button>
-		  <strong>Danger!</strong> Maximum silo capacity reached. Do not proceed.
-		</div>
         ";
       }
     }
