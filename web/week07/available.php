@@ -109,7 +109,7 @@ $db = get_db();
 	  $newOperatorID = $_SESSION['operator_id'];
 	  
 	  // double check input
-	  if (!ctype_digit($newBatchCode) && $newBatchCode.strlen() != 6) {
+	  if (!ctype_digit($newBatchCode) || $newBatchCode.strlen() != 6) {
 		  // the batch code is malformed!
 		  echo "
 		  <div class='alert alert-danger alert-dismissible fade show'>
@@ -119,7 +119,7 @@ $db = get_db();
 		  ";
 		  die();
 	  }
-	  if ($newSiloNumber != 1 || $newSiloNumber != 2) {
+	  if (!isset($newSiloNumber)) {
 		  // no silo was selected!
 		  echo "
 		  <div class='alert alert-danger alert-dismissible fade show'>
