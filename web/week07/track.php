@@ -70,6 +70,18 @@ if (!is_loggedin()) {
 		$isSupervisor = true;
 	}
 	
+	// check for bad input
+	if (!ctype_digit($sugar_batch) || strlen($sugar_batch) != 6 || empty($_POST['code'])) {
+		  // the batch code is malformed!
+		  echo "
+		  <div class='alert alert-danger alert-dismissible fade show'>
+			<button type='button' class='close' data-dismiss='alert'>&times;</button>
+			<strong>Bad Batch Code!</strong> Batch codes must contain exactly 6 numbers.
+		  </div>
+		  ";
+		  die();
+	  }
+	
 	$db = get_db();
 	
 	// prepare the query based on the sugar batch code

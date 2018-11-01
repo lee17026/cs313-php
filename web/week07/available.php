@@ -129,7 +129,7 @@ $db = get_db();
 		  ";
 		  die();
 	  }
-	  if (!isset($newSiloNumber)) {
+	  if ($newSiloNumber == 0) {
 		  // no silo was selected!
 		  echo "
 		  <div class='alert alert-danger alert-dismissible fade show'>

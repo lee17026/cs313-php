@@ -121,8 +121,14 @@ foreach ($db->query("SELECT id, silo_number, amount FROM sugar_silo ORDER BY id"
 	
     // first make sure there is enough sugar in that silo
     if ($availableAmountInSilo >= $requiredAmount) {
-      echo number_format($availableAmountInSilo, 0, '', ',') . " lbs in the silo and we need " . number_format($requiredAmount, 0, '', ',') . " lbs.<br/>";
-      
+      //echo number_format($availableAmountInSilo, 0, '', ',') . " lbs in the silo and we need " . number_format($requiredAmount, 0, '', ',') . " lbs.<br/>";
+      echo "
+		  <div class='alert alert-info alert-dismissible fade show'>
+			<button type='button' class='close' data-dismiss='alert'>&times;</button>
+			Preparing to mix recipe $recipeID by using " . number_format($requiredAmount, 0, '', ',') . " lbs of sugar from silo $siloNumber.
+		  </div>
+		  ";
+	  
       // find out which batch code we will be using by slecting the oldest 
       //    batch id and amount where silo ID matches and amount is positive
 	  $shipments = array();
@@ -143,8 +149,14 @@ foreach ($db->query("SELECT id, silo_number, amount FROM sugar_silo ORDER BY id"
         $batchID2 = $shipments[1]["id"];
         $availableAmountInBatch2 = $shipments[1]["amount"];
         $sugarBatchCode2 = $shipments[1]["batch_code"];
-        echo "There wasn't enough sugar in batch $sugarBatchCode so we're going to use the next one too, which is batch $sugarBatchCode2.<br/>";
-        
+        //echo "There wasn't enough sugar in batch $sugarBatchCode so we're going to use the next one too, which is batch $sugarBatchCode2.<br/>";
+        echo "
+		  <div class='alert alert-warning alert-dismissible fade show'>
+			<button type='button' class='close' data-dismiss='alert'>&times;</button>
+			There wasn't enough sugar in batch $sugarBatchCode so we're going to use the next one too, which is batch $sugarBatchCode2.
+		  </div>
+		  ";
+		
         // deplete the sugar in the first batch, $requiredAmount now equals the amount still needed
         $requiredAmount -= $availableAmountInBatch;
 		$statement = $db->prepare('UPDATE sugar_shipment SET amount = 0, last_updated_by = :newOperatorID WHERE id = :batchID');
@@ -164,34 +176,68 @@ foreach ($db->query("SELECT id, silo_number, amount FROM sugar_silo ORDER BY id"
 	  $statement->bindValue(':requiredAmount', $requiredAmount);
 	  $statement->bindValue(':batchID', $batchID);
 	  $statement->bindValue(':newOperatorID', $newOperatorID);
-	  $statement->execute();
+	  if ($statement->execute()) {
+		  echo "
+			  <div class='alert alert-success alert-dismissible fade show'>
+				<button type='button' class='close' data-dismiss='alert'>&times;</button>
+				<strong>Success!</strong> Sugar amount for $sugarBatchCode updated.
+			  </div>
+			  ";
+	  }
 	  //$db->query("UPDATE sugar_shipment SET amount = amount - $requiredAmount WHERE id = $batchID");
-      echo "Subtracting sugar from batch $sugarBatchCode.  .  .  .  .  .  Done!<br/>";
+      //echo "Subtracting sugar from batch $sugarBatchCode.  .  .  .  .  .  Done!<br/>";
       
       // mix this batch
 	  $statement = $db->prepare('INSERT INTO batch (recipe, sugar_batch, created_by, last_updated_by) VALUES (:recipeID, :batchID, :newOperatorID, :newOperatorID)');
 	  $statement->bindValue(':recipeID', $recipeID);
 	  $statement->bindValue(':batchID', $batchID);
 	  $statement->bindValue(':newOperatorID', $newOperatorID);
-	  $statement->execute();
+	  if ($statement->execute()) {
+		  echo "
+			  <div class='alert alert-success alert-dismissible fade show'>
+				<button type='button' class='close' data-dismiss='alert'>&times;</button>
+				<strong>Success!</strong> New batch mixed.
+			  </div>
+			  ";
+	  }
       //$db->query("INSERT INTO batch (recipe, sugar_batch, created_by, last_updated_by) VALUES ($recipeID, $batchID, 1, 1)");
       // KEEP THE ID
 	  $newlyMixedBatchID = $db->lastInsertId('batch_id_seq');
-      echo "Mixing this batch.  .  .  .  .  .  Done!<br/>";
+      //echo "Mixing this batch.  .  .  .  .  .  Done!<br/>";
       
       // update the silo
 	  $statement = $db->prepare('UPDATE sugar_silo SET amount = amount - :requiredAmountCONST, last_updated_by = :newOperatorID WHERE id = :siloID');
 	  $statement->bindValue(':requiredAmountCONST', $requiredAmountCONST);
 	  $statement->bindValue(':siloID', $siloID);
 	  $statement->bindValue(':newOperatorID', $newOperatorID);
-	  $statement->execute();
+	  if ($statement->execute()) {
+		  echo "
+			  <div class='alert alert-success alert-dismissible fade show'>
+				<button type='button' class='close' data-dismiss='alert'>&times;</button>
+				<strong>Success!</strong> Amount of sugar in silo $siloNumber updated.
+			  </div>
+			  ";
+	  }
       //$db->query("UPDATE sugar_silo SET amount = amount - $requiredAmountCONST WHERE id = $siloID");
-      echo "Updating silo $siloNumber.  .  .  .  .  .  Done!<br/>";
+      //echo "Updating silo $siloNumber.  .  .  .  .  .  Done!<br/>";
       
-      echo "The batch was succesfully mixed! It has an id of $newlyMixedBatchID and uses sugar batch $sugarBatchCode. You can mix more batches or return to the Control Room.<br/>";
+	  echo "
+			  <div class='alert alert-success alert-dismissible fade show'>
+				<button type='button' class='close' data-dismiss='alert'>&times;</button>
+				The batch was succesfully mixed! It has an id of $newlyMixedBatchID and uses sugar batch $sugarBatchCode. You can mix more batches or return to the Control Room.
+			  </div>
+			  ";
+      //echo "The batch was succesfully mixed! It has an id of $newlyMixedBatchID and uses sugar batch $sugarBatchCode. You can mix more batches or return to the Control Room.<br/>";
     } else {
       // there is not enough sugar in this silo!
-      echo "Not enough sugar in silo $siloNumber! Try using a different silo. And if there's not enough in both silos, try yelling at Vincent.<br/>";
+      //echo "Not enough sugar in silo $siloNumber! Try using a different silo. And if there's not enough in both silos, try yelling at Vincent.<br/>";
+	  echo "
+		  <div class='alert alert-danger alert-dismissible fade show'>
+			<button type='button' class='close' data-dismiss='alert'>&times;</button>
+			<strong>Not Enough Sugar in Solo $siloNumber!</strong> Try using a different silo. And if there's not enough in both silos, try yelling at Vincent.
+		  </div>
+		  ";
+		  die();
     }
     ?>
     <?php endif; ?>

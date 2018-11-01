@@ -65,12 +65,33 @@ if (!is_loggedin()) {
     <?php
 	$recipe_code = htmlspecialchars($_POST['code']);
 	
+	// make sure the input is good
+	if (!ctype_digit($recipe_code) || strlen($recipe_code) != 6 || empty($_POST['code'])) {
+		  // the batch code is malformed!
+		  echo "
+		  <div class='alert alert-danger alert-dismissible fade show'>
+			<button type='button' class='close' data-dismiss='alert'>&times;</button>
+			<strong>Bad Batch Code!</strong> Batch codes must contain exactly 6 numbers.
+		  </div>
+		  ";
+		  die();
+	  }
+	
 	$db = get_db();
 	
 	// get the sugar amount and name for the specified recipe code
 	$statement = $db->prepare('SELECT sugar_amount, recipe_name FROM public.recipe WHERE recipe_code = :recipe_code');
 	$statement->bindValue(':recipe_code', $recipe_code);
-	$statement->execute();
+	if (!$statement->execute()) {
+		// row not found!
+		echo "
+		  <div class='alert alert-danger alert-dismissible fade show'>
+			<button type='button' class='close' data-dismiss='alert'>&times;</button>
+			<strong>No Such Recipe!</strong> No recipe found for $recipe_code. Please try a valid recipe code.
+		  </div>
+		  ";
+		  die();
+	}
 	$query = $statement->fetch(PDO::FETCH_ASSOC);
 	$sugarAmount = $query['sugar_amount'];
 	$recipeName = $query['recipe_name'];
