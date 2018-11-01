@@ -109,7 +109,13 @@ $db = get_db();
 	  $newOperatorID = $_SESSION['operator_id'];
       
       echo "Prepping batch $newBatchCode to go into silo 1$newSiloNumber with ". number_format($newAmount, 0, '', ',') . " lbs of sugar.<br/>";
-      
+      echo "
+      <div class='alert alert-info alert-dismissible fade show'>
+	    <button type='button' class='close' data-dismiss='alert'>&times;</button>
+	    Prepping batch $newBatchCode to go into silo 1$newSiloNumber with " . number_format($newAmount, 0, '', ',') . " lbs of sugar.
+	  </div>
+      ";
+	  
       // first make sure the silo can hold the whole shipment
       $siloPDO = $db->query("SELECT id, silo_number, amount FROM sugar_silo WHERE id = $newSiloNumber");
 	  $silo = $siloPDO->fetch();
@@ -127,6 +133,12 @@ $db = get_db();
 	    $statement->execute();
         //$db->query("INSERT INTO sugar_shipment (batch_code, amount, location, created_by, last_updated_by) VALUES ('$newBatchCode', $newAmount, $newSiloNumber, 1, 1);");
         echo "Inserting new sugar batch.  .  .  .  .  .  Done!<br/>";
+		echo "
+		  <div class='alert alert-success alert-dismissible fade show'>
+			<button type='button' class='close' data-dismiss='alert'>&times;</button>
+			<strong>Success!</strong> Batch $newBatchCode inserted into silo 1$newSiloNumber.
+		  </div>
+		  ";
         
         // update silo by adding more sugar
 		$statement = $db->prepare('UPDATE sugar_silo SET amount = amount + :newAmount, last_updated_by = :newOperatorID WHERE id = :newSiloNumber');
@@ -136,10 +148,17 @@ $db = get_db();
 	    $statement->execute();
         //$db->query("UPDATE sugar_silo SET amount = amount + $newAmount WHERE id = $newSiloNumber");
         echo "Updating silo.  .  .  .  .  .  Done!<br/>";
+		echo "
+		  <div class='alert alert-success alert-dismissible fade show'>
+			<button type='button' class='close' data-dismiss='alert'>&times;</button>
+			<strong>Success!</strong> Silo 1$newSiloNumber updated.
+		  </div>
+		  ";
       } else {
         // TOO MUCH SUGAR MAN!
         echo '
-        <div class="alert alert-danger">
+        <div class="alert alert-danger alert-dismissible fade show">
+		  <button type="button" class="close" data-dismiss="alert">&times;</button>
           <strong>Danger!</strong> Maximum silo capacity reached. Do not proceed.
         </div>
         ';

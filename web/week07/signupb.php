@@ -5,7 +5,7 @@ require_once "session_functions.php";
 <!DOCTYPE html>
 <html lang="en-US">
   <head>
-    <title>CS 313 Team Activity Week 07</title>
+    <title>Secret Sign Up Page</title>
     <meta charset="UTF-8"/>
   </head>
   
