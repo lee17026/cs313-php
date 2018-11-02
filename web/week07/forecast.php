@@ -8,6 +8,12 @@ if (!is_loggedin()) {
   header('Location: plantbbeepin.php');
   die();
 }
+
+// set up recipes for our dropdown selection menu
+$recipes = array();
+foreach ($db->query("SELECT id, recipe_code, recipe_name, sugar_amount FROM recipe ORDER BY recipe_code") as $row) {
+	$recipes[] = $row;
+}
 ?>
 <!DOCTYPE html>
 <html lang="en-US">
@@ -41,16 +47,20 @@ if (!is_loggedin()) {
     <!-- Welcome and Instructions -->
     <div class="container">
       <h1 class="text-center">Forecast Mixable Batches</h1>
-      <p class="text-center">Please enter a 6 character recipe code to see how many batches can be mixed with currently available sugar.</p>
+      <p class="text-center">Please select a recipe code to see how many batches can be mixed with currently available sugar.</p>
     </div>
     <br />
     
     <!-- Form -->
     <form class="form-horizontal" action="<?=$filename?>" method="post">
       <div class="form-group">
-        <label class="control-label col-sm-8" for="code">Recipe Code:</label>
-        <div class="col-sm-10">
-          <input type="text" class="form-control" name="code" id="code" maxlength="6" placeholder="Example: 660002" autofocus>
+        <label class="control-label col-sm-8" for="code">Select Recipe:</label>
+        <div class="form-group">
+          <select class="form-control" id="code" name="code">
+            <?php foreach ($recipes as $row): ?>
+            <option value="<?=$row['id']?>"><?=$row['recipe_code'] . ' - ' . $row['recipe_name']?></option>
+            <?php endforeach; ?>
+          </select>
         </div>
       </div>
       <div class="form-group"> 
@@ -63,8 +73,19 @@ if (!is_loggedin()) {
     <!-- Table -->
     <?php if ($_SERVER['REQUEST_METHOD'] == 'POST'): ?>
     <?php
-	$recipe_code = htmlspecialchars($_POST['code']);
+	$recipeID = htmlspecialchars($_POST['code']);
 	
+	// track down our row and get the sugar amount, recipe code, and recipe name
+	foreach ($recipes as $row) {
+		if ($recipeID == $row['id']) {
+			$sugarAmount = (int)$row['sugar_amount'];
+			$recipe_code = $row['recipe_code'];
+			$recipeName = $row['recipe_name'];
+			break;
+		}
+	}
+	
+	/* old version for text input
 	// make sure the input is good
 	if (!ctype_digit($recipe_code) || strlen($recipe_code) != 6 || empty($_POST['code'])) {
 		  // the batch code is malformed!
@@ -76,8 +97,6 @@ if (!is_loggedin()) {
 		  ";
 		  die();
 	  }
-	
-	$db = get_db();
 	
 	// get the sugar amount and name for the specified recipe code
 	$statement = $db->prepare('SELECT sugar_amount, recipe_name FROM public.recipe WHERE recipe_code = :recipe_code');
@@ -107,6 +126,7 @@ if (!is_loggedin()) {
 		  ";
 		  die();
 	}
+	*/
 
 	// get the sum
 	$sum = 0;
