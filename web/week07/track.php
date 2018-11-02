@@ -118,6 +118,7 @@ if (!is_loggedin()) {
 		if (!isset($row['id'])) {
 			// row not found!
 		echo "
+		</tbody></table>
 		  <div class='alert alert-danger alert-dismissible fade show'>
 			<button type='button' class='close' data-dismiss='alert'>&times;</button>
 			<strong>No Such Batch!</strong> No batch found with code $sugar_batch. Please try a valid batch code.
