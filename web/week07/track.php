@@ -8,6 +8,12 @@ if (!is_loggedin()) {
   header('Location: plantbbeepin.php');
   die();
 }
+
+$db = get_db();
+$shipments = array();
+foreach ($db->query("SELECT batch_code FROM sugar_shipment ORDER BY id") as $row) {
+	$shipments[] = $row;
+}
 ?>
 <!DOCTYPE html>
 <html lang="en-US">
@@ -41,17 +47,26 @@ if (!is_loggedin()) {
     <!-- Welcome and Instructions -->
     <div class="container">
       <h1 class="text-center">Track Sugar Batches</h1>
-      <p class="text-center">Please enter a 6 character sugar batch code to track.</p>
+      <p class="text-center">Please select a sugar batch code to track.</p>
     </div>
     <br />
     
     <!-- Form -->
     <form class="form-horizontal" action="<?=$filename?>" method="post">
       <div class="form-group">
+	    <label class="control-label col-sm-8" for="code">Select Batch Code:</label>
+        <div class="form-group">
+          <select class="form-control" id="code" name="code">
+            <?php foreach ($shipments as $row): ?>
+            <option value="<?=$row['batch_code']?>"><?=$row['batch_code']?></option>
+            <?php endforeach; ?>
+          </select>
+        </div>
+		<!-- old text input version
         <label class="control-label col-sm-8" for="code">Batch Code:</label>
         <div class="col-sm-10">
           <input type="text" class="form-control" name="code" id="code" maxlength="6" placeholder="Example: 824184" autofocus>
-        </div>
+        </div> -->
       </div>
       <div class="form-group"> 
         <div class="col-sm-offset-2 col-sm-10">
@@ -70,6 +85,7 @@ if (!is_loggedin()) {
 		$isSupervisor = true;
 	}
 	
+	/* checks no longer needed with new dropdown select
 	// check for bad input
 	if (!ctype_digit($sugar_batch) || strlen($sugar_batch) != 6 || empty($_POST['code'])) {
 		  // the batch code is malformed!
@@ -81,8 +97,7 @@ if (!is_loggedin()) {
 		  ";
 		  die();
 	  }
-	
-	$db = get_db();
+	  */
 	
 	// prepare the query based on the sugar batch code
 	$statement = $db->prepare('SELECT b.id, r.recipe_name, r.recipe_code, b.creation_date, o.first_name, o.last_name, o.role FROM batch b INNER JOIN recipe r ON b.recipe = r.id INNER JOIN sugar_shipment s ON b.sugar_batch = s.id JOIN operator o ON (o.id = b.last_updated_by) WHERE s.batch_code = :sugar_batch ORDER BY b.id');
