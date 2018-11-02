@@ -85,7 +85,7 @@ if (!is_loggedin()) {
 	$db = get_db();
 	
 	// prepare the query based on the sugar batch code
-	$statement = $db->prepare('SELECT b.id, r.recipe_name, r.recipe_code, b.creation_date, o.first_name, o.last_name, o.role FROM batch b INNER JOIN recipe r ON b.recipe = r.id INNER JOIN sugar_shipment s ON b.sugar_batch = s.id JOIN operator o ON (o.id = b.last_updated_by) WHERE s.batch_code = :sugar_batch');
+	$statement = $db->prepare('SELECT b.id, r.recipe_name, r.recipe_code, b.creation_date, o.first_name, o.last_name, o.role FROM batch b INNER JOIN recipe r ON b.recipe = r.id INNER JOIN sugar_shipment s ON b.sugar_batch = s.id JOIN operator o ON (o.id = b.last_updated_by) WHERE s.batch_code = :sugar_batch ORDER BY b.id');
 	$statement->bindValue(':sugar_batch', $sugar_batch);
 	if (!$statement->execute()) {
 		// row not found!
