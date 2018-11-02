@@ -11,6 +11,7 @@ if (!is_loggedin()) {
 
 // set up recipes for our dropdown selection menu
 $recipes = array();
+$db = get_db();
 foreach ($db->query("SELECT id, recipe_code, recipe_name, sugar_amount FROM recipe ORDER BY recipe_code") as $row) {
 	$recipes[] = $row;
 }
