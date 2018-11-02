@@ -97,16 +97,6 @@ if (!is_loggedin()) {
 		  ";
 		  die();
 	}
-	if (pg_num_rows($statement) <= 0) {
-		// row not found!
-		echo "
-		  <div class='alert alert-danger alert-dismissible fade show'>
-			<button type='button' class='close' data-dismiss='alert'>&times;</button>
-			<strong>No Such Batch!</strong> No batch found with code $sugar_batch. Please try a valid batch code.
-		  </div>
-		  ";
-		  die();
-	}
     ?>
     <div class="container">
       <h1>All Batches Mixed with Batch Code <?=$sugar_batch?></h1>
@@ -124,6 +114,18 @@ if (!is_loggedin()) {
       </thead>
       <tbody>
         <?php while ($row = $statement->fetch(PDO::FETCH_ASSOC)): ?>
+		<?php
+		if (!isset($row['id'])) {
+			// row not found!
+		echo "
+		  <div class='alert alert-danger alert-dismissible fade show'>
+			<button type='button' class='close' data-dismiss='alert'>&times;</button>
+			<strong>No Such Batch!</strong> No batch found with code $sugar_batch. Please try a valid batch code.
+		  </div>
+		  ";
+		  die();
+		}
+		?>
         <tr>
           <td><?=$row['id']?></td>
           <td><?=$row['recipe_name']?></td>
