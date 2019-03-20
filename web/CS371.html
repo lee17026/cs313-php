@@ -3,17 +3,163 @@
     
   <head>
     <meta charset="utf-8">
-    <title>Tim Lee's CS 313 Assignments</title>
-    <meta name="description" content="The main hub for CS 313 assignments.">      
+    <title>CS 371</title>
+    <meta name="description" content="A redesign for CS 371">      
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
     <!-- Bootstrap CDN -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
     <link rel="stylesheet" href="main.css">
+    
+    
+    <style>
+      body {
+        padding-left: 8em;
+        padding-right: 8em;
+        padding-top: 0.4em;
+      }
+      
+      td {
+        height: 54px;
+      }
+      
+      #who {
+        color: rgb(130,180,255);
+      }
+      
+      #what {
+        color: rgb(226,56,56);
+      }
+    </style>
+    
+    <script type="text/javascript">
+      function calendar(number) {
+        document.getElementById(number).style.backgroundColor='#003F87';
+      }
+          
+    </script>
   </head>
   
   <body>
+    <div>
+     <div class="row">
+        <div class="col-sm-6" id="who">
+          <div class="form-group">
+            <label for="user_contact">How should we contact you?</label>
+            <input type="text" class="form-control" id="email" placeholder="Enter your email or mobile number here...">
+          </div>
+          <div class="form-group">
+            <label for="contacts">Who is participating?</label>
+            <textarea class="form-control" rows="3" id="contacts" placeholder="Enter each participant's email or mobile number here, separated by comma or new line..."></textarea>
+          </div>
+        </div>
+        <div class="col-sm-6" id="what">
+          <div class="form-group">
+          <label for="event_name">What are you planning?</label>
+            <input type="text" class="form-control" id="event_name" placeholder="Enter the event name here...">
+       </div>
+       <div class="form-group">
+         <label for="event_details">Any additional details?</label>
+            <textarea class="form-control" rows="3" id="event_details" placeholder="(Optional) Enter details here..."></textarea>
+       </div>
+     </div>
+      </div>
+    </div>
+    
+    <div class="col-sm-4">
+      <select class="form-control-sm">
+        <option value="march">March</option>
+        <option value="saab">April</option>
+        <option value="mercedes">May</option>
+        <option value="audi">June</option>
+        <option value="march">July</option>
+        <option value="saab">August</option>
+        <option value="mercedes">September</option>
+        <option value="audi">October</option>
+        <option value="mercedes">November</option>
+        <option value="audi">December</option>
+      </select>
+      
+      <select class="form-control-sm">
+        <option value="march">2019</option>
+        <option value="saab">2020</option>
+        <option value="mercedes">2021</option>
+      </select>
+    </div>
+    
+<div>
+<table class="table table-bordered">
+  <tr>
+    <td style="width: 10px">Su</td>
+    <td style="width: 10px">M</td>
+    <td style="width: 10px">T</td>
+    <td style="width: 10px">W</td>
+    <td style="width: 10px">R</td>
+    <td style="width: 10px">F</td>
+    <td style="width: 10px">Sa</td>
+  </tr>
+  <tr>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td id="t1" onclick="calendar('t1')">1</td>
+    <td>2</td>
+  </tr>
+  <tr>
+    <td>3</td>
+    <td>4</td>
+    <td>5</td>
+    <td>6</td>
+    <td>7</td>
+    <td>8</td>
+    <td>9</td>
+  </tr>
+  <tr>
+    <td>10</td>
+    <td>11</td>
+    <td>12</td>
+    <td>13</td>
+    <td>14</td>
+    <td>15</td>
+    <td>16</td>
+  </tr>
+  <tr>
+    <td>17</td>
+    <td>18</td>
+    <td>19</td>
+    <td>20</td>
+    <td>21</td>
+    <td>22</td>
+    <td>23</td>
+  </tr>
+  <tr>
+    <td>24</td>
+    <td>25</td>
+    <td>26</td>
+    <td>27</td>
+    <td>28</td>
+    <td>29</td>
+    <td>30</td>
+  </tr>
+  <tr>
+    <td>31</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+</table>    
+</div>
+    
+    <div align="right">
+    <button type="button" class="btn">Send</button>
+      </div>
+      
 
   </body>
   
